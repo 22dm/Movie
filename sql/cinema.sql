@@ -163,7 +163,7 @@ CREATE TABLE `movie` (
   `country` varchar(255) DEFAULT NULL,
   `language` varchar(255) DEFAULT NULL,
   `length` int(11) NOT NULL,
-  `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `name` varchar(255) NOT NULL,
   `description` text,
   `status` int(11) DEFAULT '0',
@@ -339,6 +339,30 @@ LOCK TABLES `vip_card` WRITE;
 /*!40000 ALTER TABLE `vip_card` DISABLE KEYS */;
 INSERT INTO `vip_card` VALUES (1,15,375,'2019-04-21 13:54:38'),(2,12,660,'2019-04-17 18:47:42');
 /*!40000 ALTER TABLE `vip_card` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `card_promotion`
+--
+
+DROP TABLE IF EXISTS `card_promotion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `card_promotion` (
+  `meet` int(11) DEFAULT NULL,
+  `give` int(11) DEFAULT NULL,
+  PRIMARY KEY (`meet`),
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `card_promotion`
+--
+
+LOCK TABLES `card_promotion` WRITE;
+/*!40000 ALTER TABLE `card_promotion` DISABLE KEYS */;
+INSERT INTO `card_promotion` VALUES (300, 30),(500, 80),(800, 160),(1000000, 2000000);
+/*!40000 ALTER TABLE `card_promotion` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
