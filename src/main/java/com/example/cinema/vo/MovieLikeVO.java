@@ -2,8 +2,10 @@ package com.example.cinema.vo;
 
 public class MovieLikeVO {
 
+    //电影id
     private int id;
 
+    //电影名称
     private String name;
 
     //想看人数

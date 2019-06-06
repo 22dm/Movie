@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class VIPServiceImpl implements VIPService {
+public class VIPServiceImpl implements VIPService, VIPServiceForBl {
     @Autowired
     VIPCardMapper vipCardMapper;
 
@@ -27,6 +27,12 @@ public class VIPServiceImpl implements VIPService {
             e.printStackTrace();
             return ResponseVO.buildFailure("失败");
         }
+    }
+
+    @Override
+    public VIPCardVO getVO(int userId) {
+        VIPCard vipCard = vipCardMapper.select(userId);
+        return new VIPCardVO(vipCard);
     }
 
     @Override
@@ -111,5 +117,10 @@ public class VIPServiceImpl implements VIPService {
             e.printStackTrace();
             return ResponseVO.buildFailure("失败");
         }
+    }
+
+    @Override
+    public void addBalance(int cardId, int balance){
+        vipCardMapper.addBalance(cardId, balance);
     }
 }

@@ -32,6 +32,13 @@
             coupon.startTime &lt; Now() and coupon.endTime &gt; Now()
     </select>
 
+    <select id="selectCouponByOrderId" resultType="com.example.cinema.po.Coupon">
+        select * from coupon, couponUser, `order`
+        where coupon.id = couponUser.couponId and couponUser.userId = `order`.userId and
+            `order`.id = #{orderId} and coupon.startTime &lt; Now() and coupon.endTime &gt; Now() and
+              `order`.price >= coupon.targetAmount
+    </select>
+
     <select id="selectCouponByUserAndAmount" resultType="com.example.cinema.po.Coupon">
         select * from coupon, couponUser
         where coupon.id = couponUser.couponId and couponUser.userId = #{userId} and

@@ -11,7 +11,7 @@
     </select>
 
     <select id="selectPromotion" resultType="com.example.cinema.po.CardPromotion">
-        select * from cardPromotion
+        select * from cardPromotion order by target
     </select>
 
     <select id="selectGift" resultType="int">

@@ -11,9 +11,7 @@ CREATE TABLE `activity` (
 
 LOCK TABLES `activity` WRITE;
 INSERT INTO `activity` VALUES
-                              (2,'春季外卖节','春季外卖节','2019-04-23 17:55:59',5,'2019-04-20 17:55:59'),
-                              (3,'春季外卖节','春季外卖节','2019-04-23 17:55:59',6,'2019-04-20 17:55:59'),
-                              (4,'测试活动','测试活动','2019-04-26 16:00:00',8,'2019-04-20 16:00:00');
+                              (1,'测试活动','测试活动描述','2019-06-23 17:55:59',1,'2019-06-20 17:55:59');
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `activityMovie`;
@@ -35,10 +33,10 @@ CREATE TABLE `coupon` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `coupon` WRITE;
-INSERT INTO `coupon` VALUES (1,'测试优惠券','春季电影节',20,5,'2019-04-20 17:47:54','2019-04-23 17:47:59'),
-                            (5,'测试优惠券','品质联盟',30,4,'2019-04-20 21:14:46','2019-04-24 21:14:51'),
-                            (6,'春节电影节优惠券','电影节优惠券',50,10,'2019-04-20 21:15:11','2019-04-21 21:14:56'),
-                            (8,'测试优惠券','123',100,99,'2019-04-20 16:00:00','2019-04-26 16:00:00');
+INSERT INTO `coupon` VALUES (1,'测试优惠券1','测试优惠券1',2000,500,'2019-06-20 17:47:54','2019-07-23 17:47:59'),
+                            (2,'测试优惠券2','测试优惠券2',3000,800,'2019-06-20 21:14:46','2019-07-24 21:14:51'),
+                            (3,'测试优惠券3','测试优惠券3',5000,1000,'2019-06-20 21:15:11','2019-07-21 21:14:56'),
+                            (4,'测试优惠券4','测试优惠券4',10000,9900,'2019-06-20 16:00:00','2019-07-26 16:00:00');
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `couponUser`;
@@ -48,7 +46,7 @@ CREATE TABLE `couponUser` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `couponUser` WRITE;
-INSERT INTO `couponUser` VALUES (8,15),(5,15),(8,15),(6,15),(5,15),(8,15),(6,15);
+INSERT INTO `couponUser` VALUES (1,1),(1,2),(1,3),(2,1),(2,2);
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `hall`;
@@ -110,18 +108,6 @@ CREATE TABLE `movieLike` (
   PRIMARY KEY (`movieId`, `userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-LOCK TABLES `movieLike` WRITE;
-INSERT INTO `movieLike` VALUES
-                               (10,12,'2019-03-25 02:40:19'),
-                               (11,1,'2019-03-22 09:38:12'),
-                               (11,2,'2019-03-23 09:38:12'),
-                               (11,3,'2019-03-22 08:38:12'),
-                               (12,1,'2019-03-23 09:48:46'),
-                               (12,3,'2019-03-25 06:36:22'),
-                               (14,1,'2019-03-23 09:38:12'),
-                               (16,12,'2019-03-23 15:27:48');
-UNLOCK TABLES;
-
 DROP TABLE IF EXISTS `schedule`;
 CREATE TABLE `schedule` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -135,7 +121,7 @@ CREATE TABLE `schedule` (
 
 LOCK TABLES `schedule` WRITE;
 INSERT INTO `schedule` VALUES
-      (1, 1, 3,'2019-06-10 02:40:19', 70, "英语");
+      (1, 1, 9,'2019-06-21 21:00:00', 7000, "日语2D");
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `seat`;
@@ -177,16 +163,9 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES
-                          (1,'testname','123456',0),
-                          (3,'test','123456',0),
-                          (5,'test1','123456',0),
-                          (7,'test121','123456',0),
-                          (8,'root','123456',1),
-                          (9,'root2','123456',2),
-                          (10,'roottt','123123',0),
-                          (12,'zhourui','123456',0),
-                          (13,'abc123','abc123',0),
-                          (15,'dd','123',0);
+                          (1,'test','123456',0),
+                          (2,'testname','123456',0),
+                          (3,'root','123456',1);
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `view`;
@@ -209,8 +188,7 @@ CREATE TABLE `vipCard` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `vipCard` WRITE;
-INSERT INTO `vipCard` VALUES (1,15,375,'2019-04-21 13:54:38'),
-                             (2,12,660,'2019-04-17 18:47:42');
+INSERT INTO `vipCard` VALUES (1,1,123000,'2019-04-21 13:54:38');
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cardPromotion`;

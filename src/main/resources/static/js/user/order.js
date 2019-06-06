@@ -1,4 +1,5 @@
 let userId;
+let refundId;
 
 $(document).ready(function () {
     userId = sessionStorage.getItem('id');
@@ -66,14 +67,14 @@ function renderTicketList(orders) {
                                     <h4>${formatDate(order.time)}</h4>
                                     <h4>订单号：${order.id}</h4>
                                     <div class="card-header-action"><span class="mr-3">￥${formatPrice(order.price)}</span>
-                                    <a href="#" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i>退票</a>
+                                    <a href="#" class="btn btn-icon icon-left btn-primary" onclick="refund(${order.id});"><i class="far fa-edit"></i>退票</a>
                             ${orderDom}`;
             orderPay.append(orderDom);
         } else if (order.status === 2) {
             orderDom = `<div class="col-12 col-md-12 col-lg-12">
                             <div class="card card-dark">
                                 <div class="card-header">
-                                    <div class="badge badge-warning mr-3">已出票</div>
+                                    <div class="badge badge-warning mr-3">已失效</div>
                                     <h4>${formatDate(order.time)}</h4>
                                     <h4>订单号：${order.id}</h4>
                                     <div class="card-header-action"><span class="mr-3">￥${formatPrice(order.price)}</span>
@@ -81,4 +82,31 @@ function renderTicketList(orders) {
             orderUsed.append(orderDom);
         }
     });
+}
+
+function refund(id) {
+    refundId = id;
+    getRequest(
+        '/order/refundInfo?orderId=' + id,
+        function (res) {
+            $('#refund-amount').html(formatPrice(res.content));
+            $('#delete-modal').modal('show');
+        },
+        function (error) {
+            alert(error);
+        });
+}
+
+function confirmRefund() {
+    postRequest(
+        '/order/refund?orderId=' + refundId,
+        null,
+        function (res) {
+            $('#delete-modal').modal('hide');
+            $('#info-modal').modal('show');
+            getOrderList();
+        },
+        function (error) {
+            alert(error);
+        });
 }

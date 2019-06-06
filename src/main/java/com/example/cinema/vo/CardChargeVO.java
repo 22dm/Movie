@@ -6,14 +6,19 @@ import java.sql.Timestamp;
 
 public class CardChargeVO {
 
+    //会员卡Id
     private int cardId;
 
+    //充值金额
     private int charge;
 
+    //赠送金额
     private int gift;
 
+    //支付方式
     private int mention;
 
+    //支付时间
     private Timestamp time;
 
     public CardChargeVO(){

@@ -7,7 +7,7 @@ import com.example.cinema.vo.OrderForm;
 
 import java.util.List;
 
-public interface TicketService {
+public interface OrderService {
 
     //创建订单
     ResponseVO add(OrderForm orderForm);
@@ -24,11 +24,18 @@ public interface TicketService {
      //获得某订单的信息
     ResponseVO get(int id);
 
+    //退票
     ResponseVO refund(int orderId);
 
+    //获得退票信息
+    ResponseVO refundInfo(int orderId);
+
+    //添加退款策略
     ResponseVO addRefund(RefundForm refundForm);
 
+    //获得全部退款策略
     ResponseVO getRefund();
 
+    //删除退款策略
     ResponseVO deleteRefund(int orderId);
 }

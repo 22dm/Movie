@@ -1,9 +1,11 @@
 package com.example.cinema.blImpl.sales;
 
-import com.example.cinema.bl.sales.TicketService;
+import com.example.cinema.bl.sales.OrderService;
 import com.example.cinema.blImpl.management.hall.HallServiceForBl;
 import com.example.cinema.blImpl.management.schedule.ScheduleServiceForBl;
-import com.example.cinema.data.sales.TicketMapper;
+import com.example.cinema.blImpl.promotion.CouponServiceForBl;
+import com.example.cinema.blImpl.promotion.VIPServiceForBl;
+import com.example.cinema.data.sales.OrderMapper;
 import com.example.cinema.po.*;
 import com.example.cinema.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +15,18 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
-public class TicketServiceImpl implements TicketService {
+public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    TicketMapper ticketMapper;
+    OrderMapper orderMapper;
     @Autowired
     ScheduleServiceForBl scheduleService;
     @Autowired
     HallServiceForBl hallService;
+    @Autowired
+    VIPServiceForBl vipService;
+    @Autowired
+    CouponServiceForBl couponService;
 
     @Override
     @Transactional
@@ -31,7 +37,7 @@ public class TicketServiceImpl implements TicketService {
             order.setUserId(orderForm.getUserId());
             order.setPrice(orderForm.getPrice());
             order.setStatus(0);
-            ticketMapper.addOrder(order);
+            orderMapper.addOrder(order);
             int orderId = order.getId();
             List<SeatVO> seats = orderForm.getSeats();
             for(SeatVO seatVO : seats) {
@@ -39,7 +45,7 @@ public class TicketServiceImpl implements TicketService {
                 seat.setOrderId(orderId);
                 seat.setColumnIndex(seatVO.getColumnIndex());
                 seat.setRowIndex(seatVO.getRowIndex());
-                ticketMapper.addSeat(seat);
+                orderMapper.addSeat(seat);
             }
             return ResponseVO.buildSuccess(orderId);
         } catch (Exception e) {
@@ -52,9 +58,13 @@ public class TicketServiceImpl implements TicketService {
     @Transactional
     public ResponseVO pay(OrderPayForm orderPayForm) {
         try {
-            //TODO:判断余额，扣款，扣优惠券，送优惠券
             OrderPay orderPay = new OrderPay(orderPayForm);
-            ticketMapper.payOrder(orderPay);
+            if(orderPayForm.getPayForm().getMention() == 1){
+                vipService.addBalance(orderPayForm.getPayForm().getCardNumber(), -orderPayForm.getPayForm().getAmount());
+            }
+            int orderId = orderMapper.selectOrdersById(orderPayForm.getOrderId()).getId();
+            couponService.deleteUserCoupon(orderPayForm.getCouponId(), orderId);
+            orderMapper.payOrder(orderPay);
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,7 +75,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public ResponseVO getBySchedule(int scheduleId) {
         try {
-            List<Seat> soldSeats = ticketMapper.selectSeatsBySchedule(scheduleId);
+            List<Seat> soldSeats = orderMapper.selectSeatsBySchedule(scheduleId);
             ScheduleVO schedule=scheduleService.getVO(scheduleId);
             HallWithSeatsStatusVO hallWithSeatsStatusVO = hallService.getSeatsVO(schedule.getHall().getId());
             int[][] seats = hallWithSeatsStatusVO.getSeats();
@@ -85,7 +95,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public ResponseVO getByUserId(int userId) {
         try {
-            List<Order> orders = ticketMapper.selectOrdersByUserId(userId);
+            List<Order> orders = orderMapper.selectOrdersByUserId(userId);
             List<OrderVO> orderVOS = new ArrayList<>();
             for(Order order : orders) {
                 orderVOS.add(orderToVO(order));
@@ -100,7 +110,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public ResponseVO get(int id) {
         try {
-            Order order = ticketMapper.selectOrdersById(id);
+            Order order = orderMapper.selectOrdersById(id);
             return ResponseVO.buildSuccess(orderToVO(order));
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,7 +124,7 @@ public class TicketServiceImpl implements TicketService {
         ScheduleVO scheduleVO = scheduleService.getVO(order.getScheduleId());
         orderVO.setSchedule(scheduleVO);
 
-        List<Seat> seats = ticketMapper.selectSeatsByOrderId(order.getId());
+        List<Seat> seats = orderMapper.selectSeatsByOrderId(order.getId());
         List<SeatVO> seatVOS = new ArrayList<>();
         for(Seat seat : seats) {
             seatVOS.add(new SeatVO(seat));
@@ -124,9 +134,39 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public ResponseVO refundInfo(int orderId){
+        try {
+            List<Refund> refunds = orderMapper.selectRefund();
+            Order order = orderMapper.selectOrdersById(orderId);
+            long startTime = scheduleService.getVO(order.getScheduleId()).getStartTime().getTime();
+            long now = new Date().getTime();
+            int restHours = (int)((startTime - now) / 60 * 60 * 1000);
+            double get = 0;
+            if(refunds.size() == 0 || refunds.get(0).getHours() <= restHours){
+                get = 1;
+            }
+            for (Refund refund : refunds) {
+                if (restHours < refund.getHours()) {
+                    get = refund.getGet();
+                }
+            }
+            int refundPrice = (int) (order.getPrice() * get);
+            return ResponseVO.buildSuccess(refundPrice);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
+
+    @Override
     public ResponseVO refund(int orderId){
         try {
-            ticketMapper.refund(orderId);
+            Order order = orderMapper.selectOrdersById(orderId);
+            int refundPrice = (int)refundInfo(orderId).getContent();
+            if(order.getMethod() == 1){
+                vipService.addBalance(vipService.getVO(order.getUserId()).getId(), refundPrice);
+            }
+            orderMapper.refund(orderId);
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,7 +177,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public ResponseVO addRefund(RefundForm refundForm){
         try {
-            ticketMapper.insertRefund(new Refund(refundForm));
+            orderMapper.insertRefund(new Refund(refundForm));
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
@@ -148,7 +188,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public ResponseVO getRefund(){
         try {
-            List<Refund> refunds = ticketMapper.selectRefund();
+            List<Refund> refunds = orderMapper.selectRefund();
             List<RefundVO> refundVOS = new ArrayList<>();
             for(Refund refund : refunds) {
                 refundVOS.add(new RefundVO(refund));
@@ -163,7 +203,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public ResponseVO deleteRefund(int orderId){
         try {
-            ticketMapper.deleteRefund(orderId);
+            orderMapper.deleteRefund(orderId);
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();

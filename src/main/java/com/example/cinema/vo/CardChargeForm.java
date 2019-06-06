@@ -2,8 +2,10 @@ package com.example.cinema.vo;
 
 public class CardChargeForm {
 
+    //会员卡ID
     private int cardId;
 
+    //支付表单
     private PayForm payForm;
 
     public int getCardId() {

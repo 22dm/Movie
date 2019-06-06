@@ -5,11 +5,8 @@ import com.example.cinema.vo.ScheduleVO;
 
 import java.util.List;
 
-/**
- * @author fjj
- * @date 2019/4/28 12:30 AM
- */
 public interface ScheduleServiceForBl {
 
+    //获得VO
     ScheduleVO getVO(int id);
 }

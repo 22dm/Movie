@@ -1,5 +1,7 @@
 package com.example.cinema.vo;
 
+import java.util.Objects;
+
 /**
  * @author fjj
  * @date 2019/3/12 5:14 PM
@@ -40,6 +42,16 @@ public class ResponseVO {
         response.setMessage(message);
         System.out.println(message);
         return response;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ResponseVO)) return false;
+        ResponseVO that = (ResponseVO) o;
+        return Objects.equals(success, that.success) &&
+                Objects.equals(message, that.message) &&
+                Objects.equals(content, that.content);
     }
 
     public boolean getSuccess() {

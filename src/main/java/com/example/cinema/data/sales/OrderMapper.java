@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.util.List;
 
 @Mapper
-public interface TicketMapper {
+public interface OrderMapper {
 
     void addOrder(Order order);
 

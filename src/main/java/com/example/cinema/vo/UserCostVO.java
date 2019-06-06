@@ -4,10 +4,13 @@ import com.example.cinema.po.UserCost;
 
 public class UserCostVO {
 
+    //用户id
     private int id;
 
+    //用户名
     private String username;
 
+    //消费总额
     private int cost;
 
     public UserCostVO(){

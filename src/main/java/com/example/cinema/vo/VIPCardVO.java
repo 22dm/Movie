@@ -7,10 +7,13 @@ import java.util.List;
 
 public class VIPCardVO {
 
+    //会员卡id
     private int id;
 
+    //用户id
     private int userId;
 
+    //余额
     private int balance;
 
     private Timestamp joinDate;

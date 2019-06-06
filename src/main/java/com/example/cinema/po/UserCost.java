@@ -2,10 +2,13 @@ package com.example.cinema.po;
 
 public class UserCost {
 
+    //用户ID
     private int id;
 
+    //用户名
     private String username;
 
+    //消费总额
     private int cost;
 
     public int getId() {

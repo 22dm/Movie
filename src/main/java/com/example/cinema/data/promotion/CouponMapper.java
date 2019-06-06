@@ -16,9 +16,13 @@ public interface CouponMapper {
 
     List<Coupon> selectCouponByUserId(int userId);
 
+    List<Coupon> selectCouponByOrderId(int orderId);
+
     List<Coupon> selectAllCoupon();
 
     Coupon selectCouponById(int id);
 
-    void insertCouponUser(@Param("couponId") int couponId,@Param("userId")int userId);
+    void insertCouponUser(int couponId, int userId);
+
+    void deleteCouponUser(int couponId, int userId);
 }

@@ -2,7 +2,9 @@ package com.example.cinema.vo;
 
 import com.example.cinema.po.Hall;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class HallWithSeatsStatusVO {
 
@@ -30,6 +32,18 @@ public class HallWithSeatsStatusVO {
         name = hall.getName();
         row = hall.getRow();
         column = hall.getColumn();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof HallWithSeatsStatusVO)) return false;
+        HallWithSeatsStatusVO that = (HallWithSeatsStatusVO) o;
+        return id == that.id &&
+                row == that.row &&
+                column == that.column &&
+                Objects.equals(name, that.name) &&
+                Arrays.deepEquals(seats, that.seats);
     }
 
     public int getId() {

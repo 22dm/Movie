@@ -7,12 +7,16 @@ import java.sql.Timestamp;
 
 public class VIPCard {
 
+    //会员卡ID
     private int id;
 
+    //用户ID
     private int userId;
 
+    //余额
     private int balance;
 
+    //加入时间
     private Timestamp joinDate;
 
     public VIPCard() {

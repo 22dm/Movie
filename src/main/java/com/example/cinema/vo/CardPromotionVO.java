@@ -4,8 +4,10 @@ import com.example.cinema.po.CardPromotion;
 
 public class CardPromotionVO {
 
+    //目标金额
     private int target;
 
+    //赠送金额
     private int gift;
 
     public CardPromotionVO(){

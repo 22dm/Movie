@@ -7,6 +7,7 @@ let order;
 let orderId;
 let couponList;
 let userId;
+let cardId;
 
 $(function () {
     orderId = parseInt(window.location.href.split('?')[1].split('&')[0].split('=')[1]);
@@ -51,7 +52,7 @@ function renderOrder() {
 
 function getCoupons() {
     getRequest(
-        '/coupon/getAll',
+        '/coupon/getByOrderId?orderId=' + orderId,
         function (res) {
             coupons = res.content;
             renderCoupons();
@@ -90,6 +91,7 @@ function getCard() {
         `/vip/get?userId=${userId}`,
         function (res) {
             isVIP = res.content.joinDate != null;
+            cardId = res.content.id;
             renderCard(res.content);
         },
         function (error) {
@@ -121,8 +123,8 @@ function getForm() {
         payForm:
             {
                 amount: actualTotal,
-                cardNumber: $('#bankId-input'),
-                password: $('#password-input'),
+                cardNumber: isVIP ? cardId : $('#bankId-input').val(),
+                password: $('#password-input').val(),
                 mention: useVIP ? 1 : 0
             }
     }

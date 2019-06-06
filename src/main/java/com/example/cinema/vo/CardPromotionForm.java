@@ -2,8 +2,10 @@ package com.example.cinema.vo;
 
 public class CardPromotionForm {
 
+    //目标金额
     private int target;
 
+    //赠送金额
     private int gift;
 
     public int getTarget() {

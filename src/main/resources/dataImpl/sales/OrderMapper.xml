@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.cinema.data.sales.TicketMapper">
+<mapper namespace="com.example.cinema.data.sales.OrderMapper">
 
     <insert id="addOrder" parameterType="com.example.cinema.po.Order" useGeneratedKeys="true" keyProperty="id">
         insert into `order`(userId, scheduleId, time, status, method, price)
@@ -43,7 +43,7 @@
     </select>
 
     <select id="selectRefund" resultType="com.example.cinema.po.Refund">
-        select * from refund
+        select * from refund order by hours desc
     </select>
 
     <select id="selectGet" resultType="double">
@@ -61,7 +61,7 @@
 
     <insert id="refund">
         update `order`
-        set status = 3
+        set status = 2
         where id = #{orderId}
     </insert>
 

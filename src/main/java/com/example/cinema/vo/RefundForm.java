@@ -4,8 +4,10 @@ import com.example.cinema.po.Refund;
 
 public class RefundForm {
 
+    //剩余小时数
     int hours;
 
+    //退款比例
     double get;
 
     public int getHours() {

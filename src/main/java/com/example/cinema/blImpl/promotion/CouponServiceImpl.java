@@ -5,6 +5,7 @@ import com.example.cinema.data.promotion.CouponMapper;
 import com.example.cinema.po.Coupon;
 import com.example.cinema.vo.CouponForm;
 import com.example.cinema.vo.CouponVO;
+import com.example.cinema.vo.GiftForm;
 import com.example.cinema.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,9 +47,8 @@ public class CouponServiceImpl implements CouponService, CouponServiceForBl {
     @Override
     public ResponseVO getByOrderId(int orderId) {
         try {
-            //List<Coupon> coupons = couponMapper.selectCouponByOrderId(orderId);
-            //return ResponseVO.buildSuccess(CouponListToVo(coupons));
-            return ResponseVO.buildSuccess();
+            List<Coupon> coupons = couponMapper.selectCouponByOrderId(orderId);
+            return ResponseVO.buildSuccess(CouponListToVo(coupons));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure("失败");
@@ -90,13 +90,26 @@ public class CouponServiceImpl implements CouponService, CouponServiceForBl {
     }
 
     @Override
-    public ResponseVO give(int couponId, int userId) {
+    public ResponseVO gift(GiftForm giftForm) {
         try {
-            couponMapper.insertCouponUser(couponId,userId);
+            int couponId = giftForm.getCouponId();
+            for(int userId: giftForm.getUserIds()) {
+                addUserCoupon(couponId, userId);
+            }
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure("失败");
         }
+    }
+
+    @Override
+    public void addUserCoupon(int couponId, int userId){
+        couponMapper.insertCouponUser(couponId, userId);
+    }
+
+    @Override
+    public void deleteUserCoupon(int couponId, int userId){
+        couponMapper.deleteCouponUser(couponId, userId);
     }
 }
