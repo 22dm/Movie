@@ -47,11 +47,11 @@
     </select>
 
     <select id="selectGet" resultType="double">
-        select get from refund where hours=#{hours}
+        select `get` from refund where hours=#{hours}
     </select>
 
     <insert id="insertRefund" parameterType="com.example.cinema.po.Refund">
-        insert into refund(hours, get)
+        insert into refund(hours, `get`)
         values(#{hours}, #{get})
     </insert>
 
