@@ -1,4 +1,4 @@
-## 影院系统
+## Nekopara影院系统
 
 #### Web前端
 
@@ -6,7 +6,7 @@
 
 #### 后端
 
-- SpringBoot
+- SpringBoot+Java
 
 
 ### 项目目录
