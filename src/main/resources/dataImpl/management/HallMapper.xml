@@ -12,7 +12,7 @@
 
     <insert id="addHall" parameterType="com.example.cinema.po.Hall" useGeneratedKeys="true" keyProperty="id">
         insert into `hall`(`name`, `column`, `row`)
-        values (#{name}, #{column}, #{row})
+        values (#{name}, #{column},  #{row})
     </insert>
 
     <update id="updateHall" parameterType="com.example.cinema.po.Hall">
