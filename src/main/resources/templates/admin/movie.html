@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Bootstrap Components &rsaquo; Media Object &mdash; Stisla</title>
+
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="/assets/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/modules/fontawesome/css/all.min.css">
+
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="/assets/modules/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="/assets/modules/prism/prism.css">
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper main-wrapper-1">
+        <div class="navbar-bg"></div>
+        <nav class="navbar navbar-expand-lg main-navbar" id="admin-nav">
+            <form class="form-inline mr-auto">
+                <ul class="navbar-nav mr-3">
+                    <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+                    <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i
+                            class="fas fa-search"></i></a></li>
+                </ul>
+            </form>
+            <ul class="navbar-nav navbar-right">
+                <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                    <img alt="image" src="/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+                    <div class="d-sm-none d-lg-inline-block" id="nav-user-name"></div>
+                </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item has-icon text-danger" onclick="logout();">
+                            <i class="fas fa-sign-out-alt"></i> 注销
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div class="main-sidebar sidebar-style-2" id="admin-sidebar">
+            <aside id="sidebar-wrapper">
+                <div class="sidebar-brand">
+                    <a href="#">NEKOPARA</a>
+                </div>
+                <div class="sidebar-brand sidebar-brand-sm">
+                    <a href="#">NK</a>
+                </div>
+                <ul class="sidebar-menu">
+                    <li class="menu-header">统计</li>
+                    <li id="sidebar-statistic"><a href="/admin/statistic" class="nav-link"><i class="fas fa-fire"></i><span>影院统计</span></a></li>
+                    <li class="menu-header">销售</li>
+                    <li id="sidebar-movie"><a class="nav-link" href="/admin/movie"><i class="fas fa-film"></i> <span>电影管理</span></a></li>
+                    <li class="dropdown" id="sidebar-promotion">
+                        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-tag"></i><span>促销活动</span></a>
+                        <ul class="dropdown-menu">
+                            <li id="sidebar-activity"><a class="nav-link" href="/admin/activity">活动管理</a></li>
+                            <li id="sidebar-coupon"><a class="nav-link" href="/admin/coupon">优惠券管理</a></li>
+                            <li id="sidebar-gift"><a class="nav-link" href="/admin/gift">优惠券赠送</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="sidebar-rule">
+                        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-tasks"></i><span>策略管理</span></a>
+                        <ul class="dropdown-menu">
+                            <li id="sidebar-card"><a class="nav-link" href="/admin/vip">会员卡策略</a></li>
+                            <li id="sidebar-refund"><a class="nav-link" href="/admin/refund">退票策略</a></li>
+                        </ul>
+                    </li>
+                    <li id="sidebar-schedule"><a class="nav-link" href="/admin/schedule"><i class="fas fa-calendar"></i> <span>电影排片</span></a></li>
+                    <li class="menu-header">管理</li>
+                    <li id="sidebar-hall"><a class="nav-link" href="/admin/hall"><i class="fas fa-couch"></i> <span>影厅管理</span></a></li>
+                    <li id="sidebar-manager"><a class="nav-link" href="/admin/manager"><i class="fas fa-users"></i> <span>员工管理</span></a></li>
+                </ul>
+            </aside>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <section class="section">
+                <div class="section-header">
+                    <h1>电影管理</h1>
+                    <div class="section-header-breadcrumb">
+                        <a href="#" class="btn btn-icon icon-left btn-primary" onclick="addItem();"><i
+                                class="fas fa-plus-circle"></i>上架电影</a>
+                    </div>
+                </div>
+
+                <div class="section-body">
+                    <h2 class="section-title">即将上映</h2>
+                    <p class="section-lead">
+                        以下电影即将上映
+                    </p>
+                    <div class="row" id="item-pre">
+                    </div>
+
+                    <h2 class="section-title">上映中</h2>
+                    <p class="section-lead">
+                        以下电影正在上映中
+                    </p>
+                    <div class="row" id="item-on">
+                    </div>
+
+                    <h2 class="section-title">已下架</h2>
+                    <p class="section-lead">
+                        以下电影已下架
+                    </p>
+                    <div class="row" id="item-off">
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer class="main-footer">
+            2019 软工（二）nekopara 小组
+        </footer>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="edit-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="needs-validation" novalidate="" id="edit-form">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="form-header">上架电影</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">电影名称</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="name-input" required="">
+                            <div class="invalid-feedback">
+                                这是必填项
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">上映时间</label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control datepicker" id="date-input" required="">
+                            <div class="invalid-feedback">
+                                这是必填项
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">电影海报</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="img-input" required="">
+                            <div class="invalid-feedback">
+                                这是必填项
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">剧情介绍</label>
+                        <div class="col-sm-9">
+                            <textarea type="text" class="form-control" id="description-input" required=""></textarea>
+                            <div class="invalid-feedback">
+                                这是必填项
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">电影类型</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="type-input" required="">
+                            <div class="invalid-feedback">
+                                这是必填项
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">片长(分钟)</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" id="length-input" required="">
+                            <div class="invalid-feedback">
+                                片长必须为正整数
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">国家/地区</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="country-input">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">电影语言</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="language-input">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">电影主演</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="actor-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="confirm-edit">确定</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="info-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">操作成功</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                操作成功
+            </div>
+            <div class="modal-footer bg-whitesmoke br">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="delete-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">下架电影</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                确定要下架此电影吗？此操作不可撤销。
+            </div>
+            <div class="modal-footer bg-whitesmoke br">
+                <button type="button" class="btn btn-danger" id="delete-movie" onclick="confirmDelete();">确定</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- General JS Scripts -->
+<script src="/assets/modules/jquery.min.js"></script>
+<script src="/assets/modules/popper.js"></script>
+<script src="/assets/modules/tooltip.js"></script>
+<script src="/assets/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="/assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="/assets/modules/moment.min.js"></script>
+<script src="/assets/js/stisla.js"></script>
+
+<!-- JS Libraies -->
+<script src="/assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="/assets/modules/prism/prism.js"></script>
+
+<!-- Page Specific JS File -->
+<script src="/js/admin/movie.js"></script>
+<script src="/js/common.js"></script>
+
+<!-- Template JS File -->
+<script src="/assets/js/scripts.js"></script>
+<script src="/assets/js/custom.js"></script>
+</body>
+
+</html>

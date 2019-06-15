@@ -2,66 +2,53 @@ package com.example.cinema.controller.management;
 
 import com.example.cinema.bl.management.ScheduleService;
 import com.example.cinema.vo.ResponseVO;
-import com.example.cinema.vo.ScheduleBatchDeleteForm;
 import com.example.cinema.vo.ScheduleForm;
-import com.example.cinema.vo.ScheduleViewForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-
-/**排片管理
- * @author fjj
- * @date 2019/4/11 4:13 PM
- */
 @RestController
+@RequestMapping("/schedule")
 public class ScheduleController {
     @Autowired
     private ScheduleService scheduleService;
 
-    @RequestMapping(value = "/schedule/add", method = RequestMethod.POST)
-    public ResponseVO addSchedule(@RequestBody ScheduleForm scheduleForm){
-        return scheduleService.addSchedule(scheduleForm);
+    @PostMapping(value = "/add")
+    public ResponseVO add(@RequestBody ScheduleForm scheduleForm){
+        return scheduleService.add(scheduleForm);
     }
 
-    @RequestMapping(value = "/schedule/update", method = RequestMethod.POST)
-    public ResponseVO updateSchedule(@RequestBody ScheduleForm scheduleForm){
-        return scheduleService.updateSchedule(scheduleForm);
+    @PostMapping(value = "/edit")
+    public ResponseVO edit(@RequestBody ScheduleForm scheduleForm){
+        return scheduleService.edit(scheduleForm);
     }
 
-    @RequestMapping(value = "/schedule/search", method = RequestMethod.GET)
-    public ResponseVO searchSchedule(@RequestParam int hallId, @RequestParam Date startDate){
-        //这里传递startDate参数时，前端传的是用/分隔的时间，例如startDate=2019/04/12
-        return scheduleService.searchScheduleSevenDays(hallId, startDate);
+    @PostMapping(value = "/delete")
+    public ResponseVO delete(@RequestParam int id){
+        return scheduleService.delete(id);
     }
 
-    @RequestMapping(value = "/schedule/search/audience", method = RequestMethod.GET)
-    public ResponseVO searchAudienceSchedule(@RequestParam int movieId){
-        return scheduleService.searchAudienceSchedule(movieId);
+    @GetMapping(value = "/get")
+    public ResponseVO get(@RequestParam int id){
+        return scheduleService.get(id);
     }
 
-    @RequestMapping(value = "/schedule/view/set", method = RequestMethod.POST)
-    public ResponseVO setScheduleView(@RequestBody  ScheduleViewForm scheduleViewForm){
-        return scheduleService.setScheduleView(scheduleViewForm);
+    @GetMapping(value = "/getByHallId")
+    public ResponseVO getByHallId(@RequestParam int hallId){
+        return scheduleService.getByHallId(hallId);
     }
 
-    @RequestMapping(value = "/schedule/view", method = RequestMethod.GET)
-    public ResponseVO getScheduleView(){
-        return scheduleService.getScheduleView();
+    @GetMapping(value = "/userGet")
+    public ResponseVO userGet(@RequestParam int movieId){
+        return scheduleService.userGet(movieId);
     }
 
-
-
-    @RequestMapping(value = "/schedule/delete/batch", method = RequestMethod.DELETE)
-    public ResponseVO deleteBatchOfSchedule(@RequestBody ScheduleBatchDeleteForm scheduleBatchDeleteForm){
-        return scheduleService.deleteBatchOfSchedule(scheduleBatchDeleteForm);
+    @PostMapping(value = "/setView")
+    public ResponseVO setView(@RequestParam int view){
+        return scheduleService.setView(view);
     }
 
-    @RequestMapping(value = "/schedule/{id}", method = RequestMethod.GET)
-    public ResponseVO getScheduleById(@PathVariable int id){
-        return scheduleService.getScheduleById(id);
+    @GetMapping(value = "/getView")
+    public ResponseVO getView(){
+        return scheduleService.getView();
     }
-
-
-
 }

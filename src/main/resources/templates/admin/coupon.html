@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Bootstrap Components &rsaquo; Media Object &mdash; Stisla</title>
+
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="/assets/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/modules/fontawesome/css/all.min.css">
+
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="/assets/modules/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="/assets/modules/prism/prism.css">
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper main-wrapper-1">
+        <div class="navbar-bg"></div>
+        <nav class="navbar navbar-expand-lg main-navbar" id="admin-nav">
+            <form class="form-inline mr-auto">
+                <ul class="navbar-nav mr-3">
+                    <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+                    <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i
+                            class="fas fa-search"></i></a></li>
+                </ul>
+            </form>
+            <ul class="navbar-nav navbar-right">
+                <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                    <img alt="image" src="/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+                    <div class="d-sm-none d-lg-inline-block" id="nav-user-name"></div>
+                </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item has-icon text-danger" onclick="logout();">
+                            <i class="fas fa-sign-out-alt"></i> 注销
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div class="main-sidebar sidebar-style-2" id="admin-sidebar">
+            <aside id="sidebar-wrapper">
+                <div class="sidebar-brand">
+                    <a href="#">NEKOPARA</a>
+                </div>
+                <div class="sidebar-brand sidebar-brand-sm">
+                    <a href="#">NK</a>
+                </div>
+                <ul class="sidebar-menu">
+                    <li class="menu-header">统计</li>
+                    <li id="sidebar-statistic"><a href="/admin/statistic" class="nav-link"><i class="fas fa-fire"></i><span>影院统计</span></a></li>
+                    <li class="menu-header">销售</li>
+                    <li id="sidebar-movie"><a class="nav-link" href="/admin/movie"><i class="fas fa-film"></i> <span>电影管理</span></a></li>
+                    <li class="dropdown" id="sidebar-promotion">
+                        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-tag"></i><span>促销活动</span></a>
+                        <ul class="dropdown-menu">
+                            <li id="sidebar-activity"><a class="nav-link" href="/admin/activity">活动管理</a></li>
+                            <li id="sidebar-coupon"><a class="nav-link" href="/admin/coupon">优惠券管理</a></li>
+                            <li id="sidebar-gift"><a class="nav-link" href="/admin/gift">优惠券赠送</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="sidebar-rule">
+                        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-tasks"></i><span>策略管理</span></a>
+                        <ul class="dropdown-menu">
+                            <li id="sidebar-card"><a class="nav-link" href="/admin/vip">会员卡策略</a></li>
+                            <li id="sidebar-refund"><a class="nav-link" href="/admin/refund">退票策略</a></li>
+                        </ul>
+                    </li>
+                    <li id="sidebar-schedule"><a class="nav-link" href="/admin/schedule"><i class="fas fa-calendar"></i> <span>电影排片</span></a></li>
+                    <li class="menu-header">管理</li>
+                    <li id="sidebar-hall"><a class="nav-link" href="/admin/hall"><i class="fas fa-couch"></i> <span>影厅管理</span></a></li>
+                    <li id="sidebar-manager"><a class="nav-link" href="/admin/manager"><i class="fas fa-users"></i> <span>员工管理</span></a></li>
+                </ul>
+            </aside>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <section class="section">
+                <div class="section-header">
+                    <h1>优惠券管理</h1>
+                    <div class="section-header-breadcrumb">
+                        <a href="#" class="btn btn-icon icon-left btn-primary" onclick="addItem();"><i class="fas fa-plus-circle"></i>添加优惠券</a>
+                    </div>
+                </div>
+
+                <div class="section-body">
+                    <h2 class="section-title">优惠券列表</h2>
+                    <p class="section-lead">
+                        当前可用的优惠券
+                    </p>
+
+                    <div class="row" id="item-list">
+
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer class="main-footer">
+            2019 软工（二）nekopara 小组
+        </footer>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="edit-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="needs-validation" novalidate="" id="edit-form">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="form-header">新增优惠券</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">优惠券名称</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="name-input" required="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">优惠券描述</label>
+                        <div class="col-sm-9">
+                            <textarea type="text" class="form-control" id="description-input" required=""></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">使用门槛</label>
+                        <div class="col-sm-9">
+                            <input type="number" step="0.01" class="form-control" id="target-amount-input" required="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">优惠金额</label>
+                        <div class="col-sm-9">
+                            <input type="number" step="0.01" class="form-control" id="discount-amount-input" required="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">生效日期</label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control datepicker" id="start-date-input" required="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">截止日期</label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control datepicker" id="end-date-input" required="">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmEdit();">确定</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- General JS Scripts -->
+<script src="/assets/modules/jquery.min.js"></script>
+<script src="/assets/modules/popper.js"></script>
+<script src="/assets/modules/tooltip.js"></script>
+<script src="/assets/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="/assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="/assets/modules/moment.min.js"></script>
+<script src="/assets/js/stisla.js"></script>
+
+<!-- JS Libraies -->
+<script src="/assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="/assets/modules/prism/prism.js"></script>
+
+<!-- Page Specific JS File -->
+<script src="/js/common.js"></script>
+<script src="/js/admin/coupon.js"></script>
+<script src="/js/nekoForm.js"></script>
+
+<!-- Template JS File -->
+<script src="/assets/js/scripts.js"></script>
+<script src="/assets/js/custom.js"></script>
+</body>
+
+</html>

@@ -2,64 +2,36 @@ package com.example.cinema.vo;
 
 import java.util.Date;
 
-/**
- * @author fjj
- * @date 2019/3/12 6:20 PM
- */
 public class MovieForm {
-    /**
-     * 电影id
-     */
+    //电影 ID
     private Integer id;
-    /**
-     * 电影名称
-     */
+
+    //电影名称
     private String name;
-    /**
-     * 海报url
-     */
+
+    //电影海报 URL
     private String posterUrl;
-    /**
-     * 导演
-     */
-    private String director;
-    /**
-     * 编剧
-     */
-    private String screenWriter;
-    /**
-     * 主演
-     */
-    private String starring;
-    /**
-     * 电影类型
-     */
+
+    //电影类型
     private String type;
-    /**
-     * 制片国家/地区
-     */
+
+    //制片国家 / 地区
     private String country;
-    /**
-     * 语言
-     */
+
+    //语言
     private String language;
-    /**
-     * 上映时间
-     */
+
+    //上映时间
     private Date startDate;
-    /**
-     * 片长
-     */
-    private Integer length;
-    /**
-     * 描述
-     * @return
-     */
+
+    //片长
+    private int length;
+
+    //简介
     private String description;
-    /**
-     * 电影状态，0：上架状态，1：下架状态
-     */
-    private Integer status;
+
+    //主演
+    private String actor;
 
     public Integer getId() {
         return id;
@@ -83,30 +55,6 @@ public class MovieForm {
 
     public void setPosterUrl(String posterUrl) {
         this.posterUrl = posterUrl;
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
-    }
-
-    public String getScreenWriter() {
-        return screenWriter;
-    }
-
-    public void setScreenWriter(String screenWriter) {
-        this.screenWriter = screenWriter;
-    }
-
-    public String getStarring() {
-        return starring;
-    }
-
-    public void setStarring(String starring) {
-        this.starring = starring;
     }
 
     public String getType() {
@@ -141,11 +89,11 @@ public class MovieForm {
         this.startDate = startDate;
     }
 
-    public Integer getLength() {
+    public int getLength() {
         return length;
     }
 
-    public void setLength(Integer length) {
+    public void setLength(int length) {
         this.length = length;
     }
 
@@ -157,11 +105,11 @@ public class MovieForm {
         this.description = description;
     }
 
-    public Integer getStatus() {
-        return status;
+    public String getActor() {
+        return actor;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setActor(String actor) {
+        this.actor = actor;
     }
 }

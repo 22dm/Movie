@@ -40,4 +40,20 @@
         on s.movieId = movie.id
         order by boxOffice desc limit #{movieNum}
     </select>
+
+    <select id="selectTopUser" resultType="com.example.cinema.po.UserCost">
+        select *
+        from (
+                 select user.id, user.username, SUM(fare) as cost
+                 from user,
+                      `order`,
+                      seat,
+                      schedule
+                 where user.id = `order`.userId
+                   and seat.orderId = `order`.id
+                   and schedule.id = `order`.scheduleId
+                 order by cost desc
+             ) as `top`
+        where top.cost &gt;= #{cost}
+    </select>
 </mapper>

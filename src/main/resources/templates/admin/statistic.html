@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Nekopara 影院</title>
+
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="/assets/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/modules/fontawesome/css/all.min.css">
+
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="/assets/modules/jqvmap/dist/jqvmap.min.css">
+    <link rel="stylesheet" href="/assets/modules/weather-icon/css/weather-icons.min.css">
+    <link rel="stylesheet" href="/assets/modules/weather-icon/css/weather-icons-wind.min.css">
+    <link rel="stylesheet" href="/assets/modules/summernote/summernote-bs4.css">
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper main-wrapper-1">
+        <div class="navbar-bg"></div>
+        <nav class="navbar navbar-expand-lg main-navbar" id="admin-nav">
+            <form class="form-inline mr-auto">
+                <ul class="navbar-nav mr-3">
+                    <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+                    <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i
+                            class="fas fa-search"></i></a></li>
+                </ul>
+            </form>
+            <ul class="navbar-nav navbar-right">
+                <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                    <img alt="image" src="/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+                    <div class="d-sm-none d-lg-inline-block" id="nav-user-name"></div>
+                </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item has-icon text-danger" onclick="logout();">
+                            <i class="fas fa-sign-out-alt"></i> 注销
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div class="main-sidebar sidebar-style-2" id="admin-sidebar">
+            <aside id="sidebar-wrapper">
+                <div class="sidebar-brand">
+                    <a href="#">NEKOPARA</a>
+                </div>
+                <div class="sidebar-brand sidebar-brand-sm">
+                    <a href="#">NK</a>
+                </div>
+                <ul class="sidebar-menu">
+                    <li class="menu-header">统计</li>
+                    <li id="sidebar-statistic"><a href="/admin/statistic" class="nav-link"><i class="fas fa-fire"></i><span>影院统计</span></a></li>
+                    <li class="menu-header">销售</li>
+                    <li id="sidebar-movie"><a class="nav-link" href="/admin/movie"><i class="fas fa-film"></i> <span>电影管理</span></a></li>
+                    <li class="dropdown" id="sidebar-promotion">
+                        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-tag"></i><span>促销活动</span></a>
+                        <ul class="dropdown-menu">
+                            <li id="sidebar-activity"><a class="nav-link" href="/admin/activity">活动管理</a></li>
+                            <li id="sidebar-coupon"><a class="nav-link" href="/admin/coupon">优惠券管理</a></li>
+                            <li id="sidebar-gift"><a class="nav-link" href="/admin/gift">优惠券赠送</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="sidebar-rule">
+                        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-tasks"></i><span>策略管理</span></a>
+                        <ul class="dropdown-menu">
+                            <li id="sidebar-card"><a class="nav-link" href="/admin/vip">会员卡策略</a></li>
+                            <li id="sidebar-refund"><a class="nav-link" href="/admin/refund">退票策略</a></li>
+                        </ul>
+                    </li>
+                    <li id="sidebar-schedule"><a class="nav-link" href="/admin/schedule"><i class="fas fa-calendar"></i> <span>电影排片</span></a></li>
+                    <li class="menu-header">管理</li>
+                    <li id="sidebar-hall"><a class="nav-link" href="/admin/hall"><i class="fas fa-couch"></i> <span>影厅管理</span></a></li>
+                    <li id="sidebar-manager"><a class="nav-link" href="/admin/manager"><i class="fas fa-users"></i> <span>员工管理</span></a></li>
+                </ul>
+            </aside>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <section class="section">
+                <div class="section-header">
+                    <h1>影院统计</h1>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1">
+                            <div class="card-icon bg-primary">
+                                <i class="far fa-user"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>观众总数</h4>
+                                </div>
+                                <div class="card-body">
+                                    23
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1">
+                            <div class="card-icon bg-danger">
+                                <i class="far fa-newspaper"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>今日观众</h4>
+                                </div>
+                                <div class="card-body">
+                                    7
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1">
+                            <div class="card-icon bg-warning">
+                                <i class="far fa-file"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>今日排片</h4>
+                                </div>
+                                <div class="card-body">
+                                    12
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1">
+                            <div class="card-icon bg-success">
+                                <i class="fas fa-circle"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>今日收入</h4>
+                                </div>
+                                <div class="card-body">
+                                    380
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-md-12 col-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>客单价</h4>
+                                <div class="card-header-action">
+                                    <div class="btn-group">
+                                        <a href="#" class="btn btn-primary">本周</a>
+                                        <a href="#" class="btn">两周</a>
+                                        <a href="#" class="btn">本月</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="myChart" height="128"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>最受欢迎电影</h4>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled list-unstyled-border">
+                                    <li class="media">
+                                        <img class="mr-3" width="50" src="https://p0.meituan.net/movie/30b20139e68c46d02e0893277d633b701292458.jpg@464w_644h_1e_1c" alt="avatar">
+                                        <div class="media-body">
+                                            <div class="float-right text-primary">20 人想看</div>
+                                            <div class="media-title">千与千寻</div>
+                                            <span class="text-small text-muted">动画,奇幻,冒险,家庭</span>
+                                        </div>
+                                    </li>
+                                    <li class="media">
+                                        <img class="mr-3" width="50" src="https://p0.meituan.net/moviemachine/262f95bad79b6ae45b978593157cb68550938.jpg@464w_644h_1e_1c" alt="avatar">
+                                        <div class="media-body">
+                                            <div class="float-right">18 人想看</div>
+                                            <div class="media-title">黑衣人：全球追缉</div>
+                                            <span class="text-small text-muted">动作,科幻,冒险</span>
+                                        </div>
+                                    </li>
+                                    <li class="media">
+                                        <img class="mr-3" width="50" src="https://p1.meituan.net/movie/06daf32301ff2fd54f6ffd59299d0326672524.jpg@464w_644h_1e_1c" alt="avatar">
+                                        <div class="media-body">
+                                            <div class="float-right">15 人想看</div>
+                                            <div class="media-title">哆啦A梦：大雄的月球探险记</div>
+                                            <span class="text-small text-muted">动画,剧情</span>
+                                        </div>
+                                    </li>
+                                    <li class="media">
+                                        <img class="mr-3" width="50" src="https://p0.meituan.net/movie/f29c0f9ff0340d00085f4bc1a395ecf02603950.jpg@464w_644h_1e_1c" alt="avatar">
+                                        <div class="media-body">
+                                            <div class="float-right">12 人想看</div>
+                                            <div class="media-title">大侦探皮卡丘</div>
+                                            <span class="text-small text-muted">冒险,奇幻,喜剧</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class="text-center pt-1 pb-1">
+                                    <a href="#" class="btn btn-primary btn-lg btn-round">
+                                        查看全部
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>总票房</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-4">
+                                    <div class="text-small float-right font-weight-bold text-muted">2,100</div>
+                                    <div class="font-weight-bold mb-1">X战警：黑凤凰</div>
+                                    <div class="progress" data-height="3">
+                                        <div class="progress-bar" role="progressbar" data-width="80%" aria-valuenow="80" aria-valuemin="0"
+                                             aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="text-small float-right font-weight-bold text-muted">1,880</div>
+                                    <div class="font-weight-bold mb-1">大侦探皮卡丘</div>
+                                    <div class="progress" data-height="3">
+                                        <div class="progress-bar" role="progressbar" data-width="67%" aria-valuenow="25" aria-valuemin="0"
+                                             aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="text-small float-right font-weight-bold text-muted">1,521</div>
+                                    <div class="font-weight-bold mb-1">哆啦A梦：大雄的月球探险记</div>
+                                    <div class="progress" data-height="3">
+                                        <div class="progress-bar" role="progressbar" data-width="58%" aria-valuenow="25" aria-valuemin="0"
+                                             aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="text-small float-right font-weight-bold text-muted">884</div>
+                                    <div class="font-weight-bold mb-1">哥斯拉2：怪兽之王</div>
+                                    <div class="progress" data-height="3">
+                                        <div class="progress-bar" role="progressbar" data-width="36%" aria-valuenow="25" aria-valuemin="0"
+                                             aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="text-small float-right font-weight-bold text-muted">473</div>
+                                    <div class="font-weight-bold mb-1">阿拉丁</div>
+                                    <div class="progress" data-height="3">
+                                        <div class="progress-bar" role="progressbar" data-width="28%" aria-valuenow="25" aria-valuemin="0"
+                                             aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="text-small float-right font-weight-bold text-muted">418</div>
+                                    <div class="font-weight-bold mb-1">无所不能</div>
+                                    <div class="progress" data-height="3">
+                                        <div class="progress-bar" role="progressbar" data-width="20%" aria-valuenow="25" aria-valuemin="0"
+                                             aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>今日排片率</h4>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="myChart3"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer class="main-footer">
+            2019 软工（二）nekopara 小组
+        </footer>
+    </div>
+</div>
+
+<!-- General JS Scripts -->
+<script src="/assets/modules/jquery.min.js"></script>
+<script src="/assets/modules/popper.js"></script>
+<script src="/assets/modules/tooltip.js"></script>
+<script src="/assets/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="/assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="/assets/modules/moment.min.js"></script>
+<script src="/assets/js/stisla.js"></script>
+
+<!-- JS Libraies -->
+<script src="/assets/modules/simple-weather/jquery.simpleWeather.min.js"></script>
+<script src="/assets/modules/chart.min.js"></script>
+<script src="/assets/modules/jqvmap/dist/jquery.vmap.min.js"></script>
+<script src="/assets/modules/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<script src="/assets/modules/summernote/summernote-bs4.js"></script>
+<script src="/assets/modules/chocolat/dist/js/jquery.chocolat.min.js"></script>
+
+<!-- Page Specific JS File -->
+<script src="/assets/js/page/index-0.js"></script>
+<script src="/js/admin/statistic.js"></script>
+<script src="/js/common.js"></script>
+
+<!-- Template JS File -->
+<script src="/assets/js/scripts.js"></script>
+<script src="/assets/js/custom.js"></script>
+</body>
+
+</html>

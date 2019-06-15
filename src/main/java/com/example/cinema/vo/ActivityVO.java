@@ -1,44 +1,45 @@
 package com.example.cinema.vo;
 
+import com.example.cinema.po.Activity;
 import com.example.cinema.po.Coupon;
 
 import java.sql.Timestamp;
 import java.util.List;
 
-/**
- * Created by liying on 2019/4/20.
- */
 public class ActivityVO {
 
+    //活动 ID
     private int id;
-    /**
-     * 优惠活动名称
-     */
+
+    //活动名称
     private String name;
-    /**
-     * 优惠活动描述
-     */
+
+    //活动描述
     private String description;
-    /**
-     * 优惠活动开始时间
-     */
+
+    //开始时间
     private Timestamp startTime;
-    /**
-     * 优惠活动截止时间
-     */
+
+    //结束时间
     private Timestamp endTime;
-    /**
-     * 优惠电影列表
-     */
-    private List<MovieVO> movieList;
-    /**
-     * 优惠券规格
-     */
-    private Coupon coupon;
+
+    //活动电影列表
+    private List<String> movies;
+
+    //包含的优惠券
+    private CouponVO coupon;
 
 
     public ActivityVO() {
 
+    }
+
+    public ActivityVO(Activity activity) {
+        id = activity.getId();
+        name = activity.getName();
+        description = activity.getDescription();
+        startTime = activity.getStartTime();
+        endTime = activity.getEndTime();
     }
 
     public int getId() {
@@ -81,19 +82,19 @@ public class ActivityVO {
         this.endTime = endTime;
     }
 
-    public List<MovieVO> getMovieList() {
-        return movieList;
+    public List<String> getMovies() {
+        return movies;
     }
 
-    public void setMovieList(List<MovieVO> movieList) {
-        this.movieList = movieList;
+    public void setMovies(List<String> movies) {
+        this.movies = movies;
     }
 
-    public Coupon getCoupon() {
+    public CouponVO getCoupon() {
         return coupon;
     }
 
-    public void setCoupon(Coupon coupon) {
+    public void setCoupon(CouponVO coupon) {
         this.coupon = coupon;
     }
 }

@@ -1,15 +1,11 @@
 package com.example.cinema.blImpl.management.hall;
 
-import com.example.cinema.po.Hall;
-/**
- * @author fjj
- * @date 2019/4/28 12:27 AM
- */
+import com.example.cinema.vo.HallVO;
+import com.example.cinema.vo.HallWithSeatsStatusVO;
+
 public interface HallServiceForBl {
-    /**
-     * 搜索影厅
-     * @param id
-     * @return
-     */
-    Hall getHallById(int id);
+
+    HallVO getVO(int id);
+
+    HallWithSeatsStatusVO getSeatsVO(int id);
 }

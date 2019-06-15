@@ -5,10 +5,29 @@
         insert into user(username,password)
         values(#{username},#{password})
     </insert>
-    <select id="getAccountByName" resultMap="User">
+
+    <select id="getAccountByName" resultType="com.example.cinema.po.User">
         select * from user where username=#{username}
     </select>
 
-    <resultMap id="User" type="com.example.cinema.po.User">
-    </resultMap>
+    <insert id="insertManager" parameterType="com.example.cinema.po.User" useGeneratedKeys="true" keyProperty="id">
+        insert into user(username, password, role)
+        values(#{username}, #{password}, #{role})
+    </insert>
+
+    <update id="updateManager" parameterType="com.example.cinema.po.User">
+        update user
+        set username = #{username},
+            password = #{password}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteManager" parameterType="com.example.cinema.po.User">
+        delete from user
+        where id = #{id}
+    </delete>
+
+    <select id="selectManager" resultType="com.example.cinema.po.User">
+        select * from user where role = 1
+    </select>
 </mapper>

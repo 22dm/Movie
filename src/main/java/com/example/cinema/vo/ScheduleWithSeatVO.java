@@ -1,26 +1,22 @@
 package com.example.cinema.vo;
 
-import com.example.cinema.po.ScheduleItem;
-
-/**
- * Created by liying on 2019/4/21.
- */
+// 买票时获取已被占用的座位
 public class ScheduleWithSeatVO {
     /**
      * 排片
      */
-    private ScheduleItem scheduleItem;
+    private ScheduleVO schedule;
     /**
      * 座位
      */
     private int[][] seats;
 
-    public ScheduleItem getScheduleItem() {
-        return scheduleItem;
+    public ScheduleVO getSchedule() {
+        return schedule;
     }
 
-    public void setScheduleItem(ScheduleItem scheduleItem) {
-        this.scheduleItem = scheduleItem;
+    public void setSchedule(ScheduleVO schedule) {
+        this.schedule = schedule;
     }
 
     public int[][] getSeats() {

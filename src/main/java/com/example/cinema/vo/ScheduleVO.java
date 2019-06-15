@@ -1,31 +1,96 @@
 package com.example.cinema.vo;
 
-import com.example.cinema.po.ScheduleItem;
+import com.example.cinema.po.Schedule;
 
 import java.util.Date;
-import java.util.List;
 
-/**
- * @author fjj
- * @date 2019/4/12 4:05 PM
- */
 public class ScheduleVO {
-    private Date date;
-    private List<ScheduleItemVO> scheduleItemList;
 
-    public Date getDate() {
-        return date;
+    //排片 Id
+    private Integer id;
+
+    //影厅
+    private HallVO hall;
+
+    //电影
+    private MovieVO movie;
+
+    //票价
+    private int fare;
+
+    //开始时间
+    private Date startTime;
+
+    //结束时间
+    private Date endTime;
+
+    //类型
+    private String type;
+
+    public ScheduleVO(){
+
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public ScheduleVO(Schedule schedule){
+        id = schedule.getId();
+        fare = schedule.getFare();
+        startTime = schedule.getStartTime();
+        type = schedule.getType();
     }
 
-    public List<ScheduleItemVO> getScheduleItemList() {
-        return scheduleItemList;
+    public Integer getId() {
+        return id;
     }
 
-    public void setScheduleItemList(List<ScheduleItemVO> scheduleItemList) {
-        this.scheduleItemList = scheduleItemList;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public HallVO getHall() {
+        return hall;
+    }
+
+    public void setHall(HallVO hall) {
+        this.hall = hall;
+    }
+
+    public MovieVO getMovie() {
+        return movie;
+    }
+
+    public void setMovie(MovieVO movie) {
+        this.movie = movie;
+    }
+
+    public int getFare() {
+        return fare;
+    }
+
+    public void setFare(int fare) {
+        this.fare = fare;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

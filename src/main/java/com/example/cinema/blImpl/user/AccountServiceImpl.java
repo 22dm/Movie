@@ -9,24 +9,26 @@ import com.example.cinema.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author huwen
  * @date 2019/3/23
  */
 @Service
 public class AccountServiceImpl implements AccountService {
-    private final static String ACCOUNT_EXIST = "账号已存在";
     @Autowired
     private AccountMapper accountMapper;
 
     @Override
-    public ResponseVO registerAccount(UserForm userForm) {
+    public ResponseVO add(UserForm userForm) {
         try {
             accountMapper.createNewAccount(userForm.getUsername(), userForm.getPassword());
+            return ResponseVO.buildSuccess();
         } catch (Exception e) {
-            return ResponseVO.buildFailure(ACCOUNT_EXIST);
+            return ResponseVO.buildFailure("账号已存在");
         }
-        return ResponseVO.buildSuccess();
     }
 
     @Override
@@ -38,5 +40,52 @@ public class AccountServiceImpl implements AccountService {
         return new UserVO(user);
     }
 
+    @Override
+    public ResponseVO getManager(){
+        try {
+            List<User> users = accountMapper.selectManager();
+            List<UserVO> userVOS = new ArrayList<>();
+            for(User user: users){
+                userVOS.add(new UserVO(user));
+            }
+            return ResponseVO.buildSuccess(userVOS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
+
+    @Override
+    public ResponseVO addManager(UserForm userForm){
+        try {
+            accountMapper.insertManager(new User(userForm));
+            return ResponseVO.buildSuccess();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
+
+    @Override
+    public ResponseVO editManager(UserForm userForm){
+        try {
+            accountMapper.updateManager(new User(userForm));
+            return ResponseVO.buildSuccess();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
+
+    @Override
+    public ResponseVO deleteManager(int userId){
+        try {
+            accountMapper.deleteManager(userId);
+            return ResponseVO.buildSuccess();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
 
 }

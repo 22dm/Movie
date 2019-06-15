@@ -2,15 +2,8 @@ package com.example.cinema.blImpl.statistics;
 
 import com.example.cinema.bl.statistics.StatisticsService;
 import com.example.cinema.data.statistics.StatisticsMapper;
-import com.example.cinema.po.AudiencePrice;
-import com.example.cinema.po.MovieScheduleTime;
-import com.example.cinema.po.MovieTotalBoxOffice;
-import com.example.cinema.po.MoviePlacingRateByDate;
-import com.example.cinema.vo.AudiencePriceVO;
-import com.example.cinema.vo.MovieScheduleTimeVO;
-import com.example.cinema.vo.MovieTotalBoxOfficeVO;
-import com.example.cinema.vo.MoviePlacingRateByDateVO;
-import com.example.cinema.vo.ResponseVO;
+import com.example.cinema.po.*;
+import com.example.cinema.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -158,5 +151,20 @@ public class StatisticsServiceImpl implements StatisticsService {
             movieTotalBoxOfficeVOList.add(new MovieTotalBoxOfficeVO(movieTotalBoxOffice));
         }
         return movieTotalBoxOfficeVOList;
+    }
+
+    @Override
+    public ResponseVO getTopUser(int cost){
+        try {
+            List<UserCost> userCosts = statisticsMapper.selectTopUser(cost);
+            List<UserCostVO> userCostVOS = new ArrayList<>();
+            for(UserCost userCost: userCosts){
+                userCostVOS.add(new UserCostVO(userCost));
+            }
+            return ResponseVO.buildSuccess(userCostVOS);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
     }
 }

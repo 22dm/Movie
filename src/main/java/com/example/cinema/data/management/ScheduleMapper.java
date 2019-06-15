@@ -1,9 +1,9 @@
 package com.example.cinema.data.management;
 
 
+import com.example.cinema.po.Schedule;
 import com.example.cinema.vo.ScheduleForm;
-import com.example.cinema.po.ScheduleItem;
-import com.example.cinema.vo.ScheduleViewForm;
+import com.example.cinema.vo.ViewForm;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,99 +16,22 @@ import java.util.List;
  */
 @Mapper
 public interface ScheduleMapper {
-    /**
-     * 插入一条排片信息
-     * @param scheduleForm
-     * @return
-     */
-    int insertOneSchedule(ScheduleForm scheduleForm);
 
-    /**
-     * 查询从startDate开始到endDate为止的某hall的排片信息
-     * @param hallId
-     * @param startDate
-     * @param endDate
-     * @return
-     */
-    List<ScheduleItem> selectSchedule(@Param("hallId") int hallId, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    void insert(Schedule schedule);
 
+    void update(Schedule schedule);
 
-    /**
-     * 查询起止时间是否有冲突(不包括与自身的冲突)
-     * @param hallId
-     * @param startTime
-     * @param endTime
-     * @param id
-     * @return
-     */
-    List<ScheduleItem> selectScheduleConflictByHallIdAndTime(@Param("hallId") int hallId, @Param("startTime") Date startTime, @Param("endTime") Date endTime, @Param("id") int id);
+    void delete(int id);
 
-    /**
-     * 插入观众可见排片限制
-     * @return
-     */
-    int insertOneView(ScheduleViewForm scheduleViewForm);
+    Schedule select(int id);
 
-    /**
-     * 修改观众可见排片限制
-     * @param scheduleViewForm
-     * @return
-     */
-    int updateOneView(ScheduleViewForm scheduleViewForm);
+    List<Schedule> selectByHallId(int hallId);
 
-    /**
-     * 查询view的记录数，以此判断后续操作是插入还是修改
-     * @return
-     */
-    int selectViewCount();
+    List<Schedule> userGet(int movieId);
 
-    /**
-     * 批量删除排片信息
-     * @param scheduleIdList
-     * @return
-     */
-    int deleteScheduleBatch(List<Integer> scheduleIdList);
+    void setView(int view);
 
-    /**
-     * 批量查询排片信息
-     * @param scheduleIdList
-     * @return
-     */
-    List<ScheduleItem> selectScheduleBatch(List<Integer> scheduleIdList);
+    int getView();
 
-    /**
-     * 查询排片限制信息
-     * @return
-     */
-    int selectView();
-
-    /**
-     * 根据id修改排片信息
-     * @param scheduleForm
-     * @return
-     */
-    int updateScheduleById(ScheduleForm scheduleForm);
-
-
-    /**
-     * 根据id查找排片信息
-     * @param id
-     * @return
-     */
-    ScheduleItem selectScheduleById(@Param("id") int id);
-
-    /**
-     * 查询所有涉及到movieIdList中电影的排片信息
-     * @param movieIdList
-     * @return
-     */
-    List<ScheduleItem> selectScheduleByMovieIdList(List<Integer> movieIdList);
-
-    /**
-     * 查询movieId的所有排片信息
-     * @param movieId
-     * @return
-     */
-    List<ScheduleItem> selectScheduleByMovieId(@Param("movieId") int movieId);
-
+    int ifConflict(Schedule schedule);
 }

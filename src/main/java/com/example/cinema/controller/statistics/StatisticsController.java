@@ -7,32 +7,29 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
-/**
- * @author fjj
- * @date 2019/4/16 1:34 PM
- */
 @RestController
+@RequestMapping("/statistics")
 public class StatisticsController {
     @Autowired
     private StatisticsService statisticsService;
 
-    @RequestMapping(value = "statistics/scheduleRate", method = RequestMethod.GET)
+    @GetMapping(value = "/scheduleRate")
     public ResponseVO getScheduleRateByDate(@RequestParam(required = false) Date date){
         //此处date为非必填参数，若不填则默认为当天
         return statisticsService.getScheduleRateByDate(date);
     }
 
-    @RequestMapping(value = "statistics/boxOffice/total", method = RequestMethod.GET)
+    @GetMapping(value = "/boxOffice/total")
     public ResponseVO getTotalBoxOffice(){
         return statisticsService.getTotalBoxOffice();
     }
 
-    @RequestMapping(value = "statistics/audience/price", method = RequestMethod.GET)
+    @GetMapping(value = "/audience/price")
     public ResponseVO getAudiencePrice(){
         return statisticsService.getAudiencePriceSevenDays();
     }
 
-    @RequestMapping(value = "statistics/PlacingRate", method = RequestMethod.GET)
+    @GetMapping(value = "/PlacingRate")
     //public ResponseVO getMoviePlacingRateByDate(@RequestParam Date date){
     //    return statisticsService.getMoviePlacingRateByDate(date);
     //}
@@ -40,9 +37,14 @@ public class StatisticsController {
         return statisticsService.getMoviePlacingRateByDate();
     }
 
-    @RequestMapping(value = "statistics/popular/movie", method = RequestMethod.GET)
+    @GetMapping(value = "/popular/movie")
     public ResponseVO getPopularMovies(@RequestParam int days, @RequestParam int movieNum){
         return statisticsService.getPopularMovies(days, movieNum);
+    }
+
+    @GetMapping(value = "/topUser")
+    public ResponseVO getTopUser(@RequestParam int cost){
+        return statisticsService.getTopUser(cost);
     }
 
 

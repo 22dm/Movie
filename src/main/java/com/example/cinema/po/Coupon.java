@@ -1,54 +1,43 @@
 package com.example.cinema.po;
 
+import com.example.cinema.vo.CouponForm;
+
 import java.sql.Timestamp;
 
-/**
- * Created by liying on 2019/4/16.
- */
 public class Coupon {
-    /**
-     * 优惠券id
-     */
+
+    //优惠券 ID
     private int id;
-    /**
-     * 优惠券描述
-     */
-    private String description;
-    /**
-     * 优惠券名称
-     */
+
+    //优惠券名称
     private String name;
-    /**
-     * 优惠券使用门槛
-     */
+
+    //优惠券描述
+    private String description;
+
+    //优惠券使用门槛
     private double targetAmount;
-    /**
-     * 优惠券优惠金额
-     */
+
+    //优惠券优惠金额
     private double discountAmount;
-    /**
-     * 可用时间
-     */
+
+    //可用时间
     private Timestamp startTime;
-    /**
-     * 失效时间
-     */
+
+    //失效时间
     private Timestamp endTime;
 
-    public Timestamp getStartTime() {
-        return startTime;
+    public Coupon(){
+
     }
 
-    public void setStartTime(Timestamp startTime) {
-        this.startTime = startTime;
-    }
-
-    public Timestamp getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Timestamp endTime) {
-        this.endTime = endTime;
+    public Coupon(CouponForm couponForm){
+        name = couponForm.getName();
+        description = couponForm.getDescription();
+        targetAmount = couponForm.getTargetAmount();
+        discountAmount = couponForm.getDiscountAmount();
+        startTime = couponForm.getStartTime();
+        endTime = couponForm.getEndTime();
     }
 
     public int getId() {
@@ -91,6 +80,19 @@ public class Coupon {
         this.discountAmount = discountAmount;
     }
 
-    public Coupon() {
+    public Timestamp getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Timestamp startTime) {
+        this.startTime = startTime;
+    }
+
+    public Timestamp getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Timestamp endTime) {
+        this.endTime = endTime;
     }
 }

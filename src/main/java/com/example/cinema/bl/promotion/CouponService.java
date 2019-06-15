@@ -3,15 +3,15 @@ package com.example.cinema.bl.promotion;
 import com.example.cinema.vo.CouponForm;
 import com.example.cinema.vo.ResponseVO;
 
-/**
- * Created by liying on 2019/4/17.
- */
 public interface CouponService {
 
-    ResponseVO getCouponsByUser(int userId);
+    ResponseVO add(CouponForm couponForm);
 
-    ResponseVO addCoupon(CouponForm couponForm);
+    ResponseVO getAll();
 
-    ResponseVO issueCoupon(int couponId,int userId);
+    ResponseVO getByUserId(int userId);
 
+    ResponseVO getByOrderId(int orderId);
+
+    ResponseVO give(int couponId, int userId);
 }

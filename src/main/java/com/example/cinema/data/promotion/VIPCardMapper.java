@@ -1,23 +1,33 @@
 package com.example.cinema.data.promotion;
 
+import com.example.cinema.po.CardCharge;
+import com.example.cinema.po.CardPromotion;
+import com.example.cinema.po.Refund;
 import com.example.cinema.po.VIPCard;
+import com.example.cinema.vo.CardPromotionForm;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-/**
- * Created by liying on 2019/4/14.
- */
+import java.util.List;
+
 @Mapper
 public interface VIPCardMapper {
 
-    int insertOneCard(VIPCard vipCard);
+    void insert(VIPCard vipCard);
 
-    VIPCard selectCardById(int id);
+    VIPCard select(int userId);
 
-    void updateCardBalance(@Param("id") int id,@Param("balance") double balance);
+    List<CardPromotion> selectPromotion();
 
-    VIPCard selectCardByUserId(int userId);
+    int selectGift(int target);
 
+    void insertPromotion(CardPromotion cardPromotion);
 
+    void deletePromotion(int target);
 
+    void charge(CardCharge cardCharge);
+
+    List<CardCharge> selectCharge(int cardId);
+
+    void addBalance(int cardId, int balance);
 }

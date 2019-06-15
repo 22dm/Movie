@@ -1,33 +1,37 @@
 package com.example.cinema.data.sales;
 
-import com.example.cinema.po.Ticket;
+import com.example.cinema.po.*;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.List;
 
-/**
- * Created by liying on 2019/4/16.
- */
 @Mapper
 public interface TicketMapper {
 
-    int insertTicket(Ticket ticket);
+    void addOrder(Order order);
 
-    int insertTickets(List<Ticket> tickets);
+    void addSeat(Seat seat);
 
-    void deleteTicket(int ticketId);
+    void payOrder(OrderPay orderPay);
 
-    void updateTicketState(@Param("ticketId") int ticketId, @Param("state") int state);
+    List<Seat> selectSeatsBySchedule(int scheduleId);
 
-    List<Ticket> selectTicketsBySchedule(int scheduleId);
+    List<Seat> selectSeatsByOrderId(int orderId);
 
-    Ticket selectTicketByScheduleIdAndSeat(@Param("scheduleId") int scheduleId, @Param("column") int columnIndex, @Param("row") int rowIndex);
+    List<Order> selectOrdersByUserId(int userId);
 
-    Ticket selectTicketById(int id);
+    Order selectOrdersById(int id);
 
-    List<Ticket> selectTicketByUser(int userId);
+    List<Refund> selectRefund();
+
+    double selectGet(int hours);
+
+    void insertRefund(Refund refund);
+
+    void deleteRefund(int hours);
+
+    void refund(int orderId);
 
     @Scheduled(cron = "0/1 * * * * ?")
     void cleanExpiredTicket();

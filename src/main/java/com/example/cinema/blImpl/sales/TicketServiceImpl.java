@@ -4,20 +4,14 @@ import com.example.cinema.bl.sales.TicketService;
 import com.example.cinema.blImpl.management.hall.HallServiceForBl;
 import com.example.cinema.blImpl.management.schedule.ScheduleServiceForBl;
 import com.example.cinema.data.sales.TicketMapper;
-import com.example.cinema.po.Hall;
-import com.example.cinema.po.ScheduleItem;
-import com.example.cinema.po.Ticket;
+import com.example.cinema.po.*;
 import com.example.cinema.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-/**
- * Created by liying on 2019/4/16.
- */
 @Service
 public class TicketServiceImpl implements TicketService {
 
@@ -30,54 +24,56 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
-    public ResponseVO addTicket(TicketForm ticketForm) {
+    public ResponseVO add(OrderForm orderForm) {
         try {
-            List<SeatForm> seats = ticketForm.getSeats();
-            int userId = ticketForm.getUserId();
-            int scheduleId = ticketForm.getScheduleId();
-            for(SeatForm seat : seats) {
-                Ticket ticket = new Ticket();
-                ticket.setUserId(userId);
-                ticket.setScheduleId(scheduleId);
-                ticket.setColumnIndex(seat.getColumnIndex());
-                ticket.setRowIndex(seat.getRowIndex());
-                ticket.setState(0);
-                ticketMapper.insertTicket(ticket);
+            Order order = new Order();
+            order.setScheduleId(orderForm.getScheduleId());
+            order.setUserId(orderForm.getUserId());
+            order.setPrice(orderForm.getPrice());
+            order.setStatus(0);
+            ticketMapper.addOrder(order);
+            int orderId = order.getId();
+            List<SeatVO> seats = orderForm.getSeats();
+            for(SeatVO seatVO : seats) {
+                Seat seat = new Seat();
+                seat.setOrderId(orderId);
+                seat.setColumnIndex(seatVO.getColumnIndex());
+                seat.setRowIndex(seatVO.getRowIndex());
+                ticketMapper.addSeat(seat);
             }
-            return ResponseVO.buildSuccess();
+            return ResponseVO.buildSuccess(orderId);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure("创建订单失败");
         }
     }
 
     @Override
     @Transactional
-    public ResponseVO completeTicket(List<Integer> id, int couponId) {
+    public ResponseVO pay(OrderPayForm orderPayForm) {
         try {
-            for(int ticketId : id) {
-                ticketMapper.updateTicketState(ticketId, 1);
-            }
-            //couponMapper.deleteCouponUser();
+            //TODO:判断余额，扣款，扣优惠券，送优惠券
+            OrderPay orderPay = new OrderPay(orderPayForm);
+            ticketMapper.payOrder(orderPay);
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure("支付失败");
         }
     }
 
     @Override
     public ResponseVO getBySchedule(int scheduleId) {
         try {
-            List<Ticket> tickets = ticketMapper.selectTicketsBySchedule(scheduleId);
-            ScheduleItem schedule=scheduleService.getScheduleItemById(scheduleId);
-            Hall hall=hallService.getHallById(schedule.getHallId());
-            int[][] seats=new int[hall.getRow()][hall.getColumn()];
-            tickets.stream().forEach(ticket -> {
-                seats[ticket.getRowIndex()][ticket.getColumnIndex()]=1;
-            });
+            List<Seat> soldSeats = ticketMapper.selectSeatsBySchedule(scheduleId);
+            ScheduleVO schedule=scheduleService.getVO(scheduleId);
+            HallWithSeatsStatusVO hallWithSeatsStatusVO = hallService.getSeatsVO(schedule.getHall().getId());
+            int[][] seats = hallWithSeatsStatusVO.getSeats();
+            for(Seat seat : soldSeats){
+                seats[seat.getRowIndex()][seat.getColumnIndex()] = 1;
+            }
             ScheduleWithSeatVO scheduleWithSeatVO=new ScheduleWithSeatVO();
-            scheduleWithSeatVO.setScheduleItem(schedule);
+            scheduleWithSeatVO.setSchedule(schedule);
             scheduleWithSeatVO.setSeats(seats);
             return ResponseVO.buildSuccess(scheduleWithSeatVO);
         } catch (Exception e) {
@@ -87,22 +83,14 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public ResponseVO getTicketByUser(int userId) {
+    public ResponseVO getByUserId(int userId) {
         try {
-            List<Ticket> tickets = ticketMapper.selectTicketByUser(userId);
-            List<TicketWithScheduleVO> ticketWithScheduleVOs = new ArrayList<>();
-            for(Ticket ticket : tickets) {
-                TicketWithScheduleVO ticketWithScheduleVO = new TicketWithScheduleVO();
-                ticketWithScheduleVO.setId(ticket.getId());
-                ticketWithScheduleVO.setUserId(ticket.getUserId());
-                ticketWithScheduleVO.setColumnIndex(ticket.getColumnIndex());
-                ticketWithScheduleVO.setRowIndex(ticket.getRowIndex());
-                ticketWithScheduleVO.setState(ticket.getVO().getState());
-                ticketWithScheduleVO.setTime(ticket.getTime());
-                ticketWithScheduleVO.setSchedule(scheduleService.getScheduleItemById(ticket.getScheduleId()));
-                ticketWithScheduleVOs.add(ticketWithScheduleVO);
+            List<Order> orders = ticketMapper.selectOrdersByUserId(userId);
+            List<OrderVO> orderVOS = new ArrayList<>();
+            for(Order order : orders) {
+                orderVOS.add(orderToVO(order));
             }
-            return ResponseVO.buildSuccess(ticketWithScheduleVOs);
+            return ResponseVO.buildSuccess(orderVOS);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure("失败");
@@ -110,14 +98,35 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    @Transactional
-    public ResponseVO completeByVIPCard(List<Integer> id, int couponId) {
+    public ResponseVO get(int id) {
         try {
-            for(int ticketId : id) {
-                ticketMapper.updateTicketState(ticketId, 1);
-            }
-            //vipCardMapper.updateCardBalance();
-            //couponMapper.deleteCouponUser();
+            Order order = ticketMapper.selectOrdersById(id);
+            return ResponseVO.buildSuccess(orderToVO(order));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
+
+    private OrderVO orderToVO(Order order){
+        OrderVO orderVO = new OrderVO(order);
+
+        ScheduleVO scheduleVO = scheduleService.getVO(order.getScheduleId());
+        orderVO.setSchedule(scheduleVO);
+
+        List<Seat> seats = ticketMapper.selectSeatsByOrderId(order.getId());
+        List<SeatVO> seatVOS = new ArrayList<>();
+        for(Seat seat : seats) {
+            seatVOS.add(new SeatVO(seat));
+        }
+        orderVO.setSeats(seatVOS);
+        return orderVO;
+    }
+
+    @Override
+    public ResponseVO refund(int orderId){
+        try {
+            ticketMapper.refund(orderId);
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,10 +135,39 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public ResponseVO cancelTicket(List<Integer> id) {
-        return null;
+    public ResponseVO addRefund(RefundForm refundForm){
+        try {
+            ticketMapper.insertRefund(new Refund(refundForm));
+            return ResponseVO.buildSuccess();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
     }
 
+    @Override
+    public ResponseVO getRefund(){
+        try {
+            List<Refund> refunds = ticketMapper.selectRefund();
+            List<RefundVO> refundVOS = new ArrayList<>();
+            for(Refund refund : refunds) {
+                refundVOS.add(new RefundVO(refund));
+            }
+            return ResponseVO.buildSuccess(refundVOS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
 
-
+    @Override
+    public ResponseVO deleteRefund(int orderId){
+        try {
+            ticketMapper.deleteRefund(orderId);
+            return ResponseVO.buildSuccess();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
 }

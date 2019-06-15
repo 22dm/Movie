@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Nekopara 影院</title>
+
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="/assets/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/modules/fontawesome/css/all.min.css">
+
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="/assets/modules/jquery-selectric/selectric.css">
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+
+<body class="layout-3">
+<div id="app">
+    <div class="main-wrapper container">
+        <div class="navbar-bg" style="height: 74px;"></div>
+        <nav class="navbar navbar-expand-lg main-navbar">
+            <a href="/index" class="navbar-brand sidebar-gone-hide">NEKOPARA</a>
+            <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
+            <div class="nav-collapse">
+                <a class="sidebar-gone-show nav-collapse-toggle nav-link" href="#">
+                    <i class="fas fa-ellipsis-v"></i>
+                </a>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a href="/index" class="nav-link">首页</a></li>
+                    <li class="nav-item"><a href="/movie" class="nav-link">全部电影</a></li>
+                    <li class="nav-item"><a href="/activity" class="nav-link">活动中心</a></li>
+                </ul>
+            </div>
+            <form class="form-inline ml-auto">
+                <ul class="navbar-nav">
+                    <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
+                </ul>
+                <div class="search-element mr-5">
+                    <input class="form-control" type="search" placeholder="搜索" aria-label="Search">
+                    <button class="btn" id="search-btn" type="submit"><i class="fas fa-search"></i></button>
+                    <div class="search-backdrop"></div>
+                    <div class="search-result">
+                        <div class="search-header">
+                            热门搜索
+                        </div>
+                        <div class="search-item">
+                            <a href="#">How to hack NASA using CSS</a>
+                        </div>
+                        <div class="search-item">
+                            <a href="#">Kodinger.com</a>
+                        </div>
+                        <div class="search-item">
+                            <a href="#">#Stisla</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <ul class="navbar-nav navbar-right mr-3" id="no-login">
+                <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                    <img alt="image" src="/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+                    <div class="d-sm-none d-lg-inline-block">未登录</div></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a href="/login" class="dropdown-item has-icon">
+                            <i class="far fa-user"></i> 登陆
+                        </a>
+                        <a href="/signUp" class="dropdown-item has-icon">
+                            <i class="fas fa-bolt"></i> 注册
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav navbar-right mr-3" id="user-login" style="display: none">
+                <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                    <img alt="image" src="/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+                    <div class="d-sm-none d-lg-inline-block" id="user-name"></div></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-title">个人中心</div>
+                        <a href="/user/order" class="dropdown-item has-icon">
+                            <i class="fas fa-receipt"></i> 我的订单
+                        </a>
+                        <a href="/user/vip" class="dropdown-item has-icon">
+                            <i class="fas fa-credit-card"></i> 我的会员卡
+                        </a>
+                        <a href="/user/coupon" class="dropdown-item has-icon">
+                            <i class="fas fa-money-bill-wave"></i> 我的优惠券
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item has-icon text-danger" onclick="logout();">
+                            <i class="fas fa-sign-out-alt"></i> 注销
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content" style="padding-top: 120px">
+
+            <section class="section">
+
+
+                <div class="section-body">
+
+                    <div class="invoice">
+                        <div class="invoice-title">
+                            <h2>订单支付</h2>
+                            <div class="invoice-number">订单号：<span id="order-id"></span></div>
+                        </div>
+                        <hr>
+                        <div class="section-title">订单信息</div>
+                        <p class="section-lead">请于 15 分钟内完成付款，逾期订单将自动取消。</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-md text-center">
+                                <thead>
+                                <tr>
+                                    <th>电影</th>
+                                    <th>影厅</th>
+                                    <th>开始时间</th>
+                                    <th>预计散场时间</th>
+                                    <th>类型</th>
+                                    <th>座位</th>
+                                </tr>
+                                </thead>
+                                <tbody id="order-info">
+                                <tr>
+                                    <td id="movie-name"></td>
+                                    <td id="hall-name"></td>
+                                    <td id="start-time"></td>
+                                    <td id="end-time"></td>
+                                    <td id="schedule-type"></td>
+                                    <td id="seats-list"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-lg-9">
+                            </div>
+                            <div class="col-lg-3 text-right">
+                                <div class="invoice-detail-item">
+                                    <div class="invoice-detail-name">总票价</div>
+                                    <div class="invoice-detail-value">￥<span id="total-old"></span></div>
+                                </div>
+                                <div class="invoice-detail-item">
+                                    <div class="invoice-detail-name">优惠券</div>
+                                    <div class="text-left">
+                                        <select class="form-control selectric" id="coupon-list"></select>
+                                    </div>
+                                </div>
+                                <hr class="mt-2 mb-2">
+                                <div class="invoice-detail-item">
+                                    <div class="invoice-detail-name">实付款</div>
+                                    <div class="invoice-detail-value invoice-detail-value-lg">￥<span id="total"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="text-md-right">
+                            <a href="#" class="btn btn-lg btn-primary" id="confirm-btn" onclick="payOrder();">立即支付</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer class="main-footer">
+            2019 软工（二）nekopara 小组
+        </footer>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="pay-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="needs-validation" novalidate="" id="pay-form">
+                <div class="modal-header">
+                    <h5 class="modal-title">支付方式</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" id="have-card-tab" style="display: none">
+                            <a class="nav-link" id="card-tab" data-toggle="tab" href="#card-pay" role="tab" aria-selected="true">会员卡支付</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" id="bank-tab" data-toggle="tab" href="#bank-pay" role="tab" aria-selected="false">银行卡支付</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade " id="card-pay" role="tabpanel">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">会员卡余额</label>
+                                <div class="col-sm-9">￥<span id="card-balance"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">支付金额</label>
+                                <div class="col-sm-9">￥<span id="card-total"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade show active" id="bank-pay" role="tabpanel">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">银行卡号</label>
+                                <div class="col-sm-9">
+                                    <input type="number" class="form-control" id="bankId-input" required="">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">银行卡密码</label>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control" id="password-input" required="">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">支付金额</label>
+                                <div class="col-sm-9">￥<span id="bank-total"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmPay();">确定</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="info-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">支付成功</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                支付成功
+            </div>
+            <div class="modal-footer bg-whitesmoke br">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="confirmInfo();">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- General JS Scripts -->
+<script src="/assets/modules/jquery.min.js"></script>
+<script src="/assets/modules/popper.js"></script>
+<script src="/assets/modules/tooltip.js"></script>
+<script src="/assets/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="/assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="/assets/modules/moment.min.js"></script>
+<script src="/assets/js/stisla.js"></script>
+
+<!-- JS Libraies -->
+<script src="/assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
+
+<!-- Page Specific JS File -->
+<script src="/js/user/pay.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/user/header.js"></script>
+
+<!-- Template JS File -->
+<script src="/assets/js/scripts.js"></script>
+<script src="/assets/js/custom.js"></script>
+</body>
+</html>

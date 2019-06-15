@@ -1,50 +1,27 @@
 package com.example.cinema.po;
 
 
-import java.sql.Timestamp;
+import com.example.cinema.vo.CardBuyForm;
 
-/**
- * Created by liying on 2019/4/14.
- */
+import java.sql.Timestamp;
 
 public class VIPCard {
 
-    public static final double price = 25;
-
-    public static final String description="满200送30";
-
-    /**
-     * 用户id
-     */
-    private int userId;
-
-    /**
-     * 会员卡id
-     */
     private int id;
 
-    /**
-     * 会员卡余额
-     */
-    private double balance;
+    private int userId;
 
-    /**
-     * 办卡日期
-     */
+    private int balance;
+
     private Timestamp joinDate;
-
 
     public VIPCard() {
 
     }
 
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public VIPCard(CardBuyForm cardBuyForm) {
+        userId = cardBuyForm.getUserId();
+        balance = 0;
     }
 
     public int getId() {
@@ -55,11 +32,19 @@ public class VIPCard {
         this.id = id;
     }
 
-    public double getBalance() {
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(int balance) {
         this.balance = balance;
     }
 
@@ -69,10 +54,5 @@ public class VIPCard {
 
     public void setJoinDate(Timestamp joinDate) {
         this.joinDate = joinDate;
-    }
-
-    public double calculate(double amount) {
-        return (int)(amount/200)*30+amount;
-
     }
 }

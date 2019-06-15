@@ -1,23 +1,43 @@
 package com.example.cinema.controller.management;
 
 import com.example.cinema.bl.management.HallService;
-import com.example.cinema.vo.ResponseVO;
+import com.example.cinema.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-/**影厅管理
- * @author fjj
- * @date 2019/4/12 1:59 PM
- */
 @RestController
+@RequestMapping("/hall")
 public class HallController {
     @Autowired
     private HallService hallService;
 
-    @RequestMapping(value = "hall/all", method = RequestMethod.GET)
-    public ResponseVO searchAllHall(){
-        return hallService.searchAllHall();
+    //获得所有影厅
+    @GetMapping("/getAll")
+    public ResponseVO getAll(){
+        return hallService.getAll();
+    }
+
+    //获得指定影厅
+    @GetMapping("/get")
+    public ResponseVO get(@RequestParam int id){
+        return hallService.get(id);
+    }
+
+    //添加影厅
+    @PostMapping("/add")
+    public ResponseVO add(@RequestBody HallForm hallForm){
+        return hallService.add(hallForm);
+    }
+
+    //修改影厅
+    @PostMapping("/edit")
+    public ResponseVO edit(@RequestBody HallForm hallForm){
+        return hallService.edit(hallForm);
+    }
+
+    //删除影厅
+    @PostMapping("/delete")
+    public ResponseVO delete(@RequestParam int id){
+        return hallService.delete(id);
     }
 }

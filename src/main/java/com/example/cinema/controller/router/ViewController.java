@@ -4,10 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- * @author deng
- * @date 2019/03/11
- */
 @Controller
 public class ViewController {
     @RequestMapping(value = "/index")
@@ -15,66 +11,96 @@ public class ViewController {
         return "index";
     }
 
+    @RequestMapping(value = "/login")
+    public String getLogIn() {
+        return "login";
+    }
+
     @RequestMapping(value = "/signUp")
     public String getSignUp() {
         return "signUp";
     }
 
-    @RequestMapping(value = "/admin/movie/manage")
+    @RequestMapping(value = "/admin/movie")
     public String getAdminMovieManage() {
-        return "adminMovieManage";
+        return "admin/movie";
     }
 
-    @RequestMapping(value = "/admin/session/manage")
+    @RequestMapping(value = "/admin/schedule")
     public String getAdminSessionManage() {
-        return "adminScheduleManage";
+        return "admin/schedule";
     }
 
-    @RequestMapping(value = "/admin/cinema/manage")
+    @RequestMapping(value = "/admin/hall")
     public String getAdminCinemaManage() {
-        return "adminCinemaManage";
+        return "admin/hall";
     }
 
-    @RequestMapping(value = "/admin/promotion/manage")
+    @RequestMapping(value = "/admin/activity")
     public String getAdminPromotionManage() {
-        return "adminPromotionManage";
+        return "admin/activity";
     }
 
-    @RequestMapping(value = "/admin/cinema/statistic")
+    @RequestMapping(value = "/admin/coupon")
+    public String getAdminCouponManage() {
+        return "admin/coupon";
+    }
+
+    @RequestMapping(value = "/admin/vip")
+    public String getAdminPromotionVIPCard() {
+        return "admin/vip";
+    }
+
+    @RequestMapping(value = "/admin/statistic")
     public String getAdminCinemaStatistic() {
-        return "adminCinemaStatistic";
+        return "admin/statistic";
+    }
+
+    @RequestMapping(value = "/admin/manager")
+    public String getAdminManager() {
+        return "admin/manager";
+    }
+
+    @RequestMapping(value = "/admin/refund")
+    public String getAdminRefund() {
+        return "admin/refund";
+    }
+
+    @RequestMapping(value = "/admin/gift")
+    public String getAdminGift() {
+        return "admin/gift";
     }
 
     @RequestMapping(value = "/admin/movieDetail")
-    public String getAdminMovieDetail(@RequestParam int id) { return "adminMovieDetail"; }
+    public String getAdminMovieDetail(@RequestParam int id) { return "admin/movieDetail"; }
 
-    @RequestMapping(value = "/user/home")
-    public String getUserHome() {
-        return "userHome";
+    @RequestMapping(value = "/user/pay")
+    public String userOrderPay() {
+        return "user/pay";
     }
 
-    @RequestMapping(value = "/user/buy")
+    @RequestMapping(value = "/user/order")
     public String getUserBuy() {
-        return "userBuy";
+        return "user/order";
+    }
+
+    @RequestMapping(value = "/user/coupon")
+    public String getUserCoupon() {
+        return "user/coupon";
+    }
+
+    @RequestMapping(value = "/user/selectSeats")
+    public String getUserMovieBuy(@RequestParam int id) {
+        return "user/selectSeats";
     }
 
     @RequestMapping(value = "/user/movieDetail")
-    public String getUserMovieDetail(@RequestParam int id) {
-        return "userMovieDetail";
+    public String getUserMovie(@RequestParam int id) {
+        return "user/movieDetail";
     }
 
-    @RequestMapping(value = "/user/movieDetail/buy")
-    public String getUserMovieBuy(@RequestParam int id) {
-        return "userMovieBuy";
-    }
-
-    @RequestMapping(value = "/user/movie")
-    public String getUserMovie() {
-        return "userMovie";
-    }
-
-    @RequestMapping(value = "/user/member")
+    @RequestMapping(value = "/user/vip")
     public String getUserMember() {
-        return "userMember";
+        return "user/vip";
     }
 }

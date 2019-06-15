@@ -1,132 +1,57 @@
--- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
---
--- Host: 47.101.183.63    Database: cinema
--- ------------------------------------------------------
--- Server version	5.7.24
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `activity`
---
-
-SET @@session.sql_mode ='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
-
 DROP TABLE IF EXISTS `activity`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `activity_name` varchar(45) NOT NULL,
-  `a_description` varchar(255) NOT NULL,
-  `end_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `coupon_id` int(11) DEFAULT NULL,
-  `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `name` varchar(45) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `endTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `couponId` int(11) DEFAULT NULL,
+  `startTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `activity`
---
 
 LOCK TABLES `activity` WRITE;
-/*!40000 ALTER TABLE `activity` DISABLE KEYS */;
-INSERT INTO `activity` VALUES (2,'春季外卖节','春季外卖节','2019-04-23 17:55:59',5,'2019-04-20 17:55:59'),(3,'春季外卖节','春季外卖节','2019-04-23 17:55:59',6,'2019-04-20 17:55:59'),(4,'测试活动','测试活动','2019-04-26 16:00:00',8,'2019-04-20 16:00:00');
-/*!40000 ALTER TABLE `activity` ENABLE KEYS */;
+INSERT INTO `activity` VALUES
+                              (2,'春季外卖节','春季外卖节','2019-04-23 17:55:59',5,'2019-04-20 17:55:59'),
+                              (3,'春季外卖节','春季外卖节','2019-04-23 17:55:59',6,'2019-04-20 17:55:59'),
+                              (4,'测试活动','测试活动','2019-04-26 16:00:00',8,'2019-04-20 16:00:00');
 UNLOCK TABLES;
 
---
--- Table structure for table `activity_movie`
---
-
-DROP TABLE IF EXISTS `activity_movie`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `activity_movie` (
-  `activity_id` int(11) DEFAULT NULL,
-  `movie_id` int(11) DEFAULT NULL
+DROP TABLE IF EXISTS `activityMovie`;
+CREATE TABLE `activityMovie` (
+  `activityId` int(11) DEFAULT NULL,
+  `movieId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `activity_movie`
---
-
-LOCK TABLES `activity_movie` WRITE;
-/*!40000 ALTER TABLE `activity_movie` DISABLE KEYS */;
-INSERT INTO `activity_movie` VALUES (2,10),(2,11),(2,16),(4,10);
-/*!40000 ALTER TABLE `activity_movie` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `coupon`
---
 
 DROP TABLE IF EXISTS `coupon`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `coupon` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `description` varchar(255) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
-  `target_amount` float DEFAULT NULL,
-  `discount_amount` float DEFAULT NULL,
-  `start_time` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `end_time` timestamp NULL DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `targetAmount` int DEFAULT NULL,
+  `discountAmount` int DEFAULT NULL,
+  `startTime` timestamp NOT NULL,
+  `endTime` timestamp NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `coupon`
---
 
 LOCK TABLES `coupon` WRITE;
-/*!40000 ALTER TABLE `coupon` DISABLE KEYS */;
-INSERT INTO `coupon` VALUES (1,'测试优惠券','春季电影节',20,5,'2019-04-20 17:47:54','2019-04-23 17:47:59'),(5,'测试优惠券','品质联盟',30,4,'2019-04-20 21:14:46','2019-04-24 21:14:51'),(6,'春节电影节优惠券','电影节优惠券',50,10,'2019-04-20 21:15:11','2019-04-21 21:14:56'),(8,'测试优惠券','123',100,99,'2019-04-20 16:00:00','2019-04-26 16:00:00');
-/*!40000 ALTER TABLE `coupon` ENABLE KEYS */;
+INSERT INTO `coupon` VALUES (1,'测试优惠券','春季电影节',20,5,'2019-04-20 17:47:54','2019-04-23 17:47:59'),
+                            (5,'测试优惠券','品质联盟',30,4,'2019-04-20 21:14:46','2019-04-24 21:14:51'),
+                            (6,'春节电影节优惠券','电影节优惠券',50,10,'2019-04-20 21:15:11','2019-04-21 21:14:56'),
+                            (8,'测试优惠券','123',100,99,'2019-04-20 16:00:00','2019-04-26 16:00:00');
 UNLOCK TABLES;
 
---
--- Table structure for table `coupon_user`
---
-
-DROP TABLE IF EXISTS `coupon_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `coupon_user` (
-  `coupon_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
+DROP TABLE IF EXISTS `couponUser`;
+CREATE TABLE `couponUser` (
+  `couponId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `coupon_user`
---
-
-LOCK TABLES `coupon_user` WRITE;
-/*!40000 ALTER TABLE `coupon_user` DISABLE KEYS */;
-INSERT INTO `coupon_user` VALUES (8,15),(5,15),(8,15),(6,15),(5,15),(8,15),(6,15);
-/*!40000 ALTER TABLE `coupon_user` ENABLE KEYS */;
+LOCK TABLES `couponUser` WRITE;
+INSERT INTO `couponUser` VALUES (8,15),(5,15),(8,15),(6,15),(5,15),(8,15),(6,15);
 UNLOCK TABLES;
-
---
--- Table structure for table `hall`
---
 
 DROP TABLE IF EXISTS `hall`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hall` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -134,252 +59,179 @@ CREATE TABLE `hall` (
   `row` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `hall`
---
 
 LOCK TABLES `hall` WRITE;
-/*!40000 ALTER TABLE `hall` DISABLE KEYS */;
-INSERT INTO `hall` VALUES (1,'1号厅',10,5),(2,'2号厅',12,8);
-/*!40000 ALTER TABLE `hall` ENABLE KEYS */;
+INSERT INTO `hall` VALUES (1,'1号厅',10,5),
+                          (2,'2号厅',12,8);
 UNLOCK TABLES;
 
---
--- Table structure for table `movie`
---
+DROP TABLE IF EXISTS `invalidSeats`;
+CREATE TABLE `invalidSeats` (
+                        `id` int(11) NOT NULL,
+                        `column` int(11) NOT NULL,
+                        `row` int(11) NOT NULL,
+                        PRIMARY KEY (`id`, `column`, `row`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `movie`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `movie` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `poster_url` varchar(255) DEFAULT NULL,
-  `director` varchar(255) DEFAULT NULL,
-  `screen_writer` varchar(255) DEFAULT NULL,
-  `starring` varchar(255) DEFAULT NULL,
+  `posterUrl` varchar(1023) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
   `country` varchar(255) DEFAULT NULL,
   `language` varchar(255) DEFAULT NULL,
   `length` int(11) NOT NULL,
-  `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `startDate` timestamp NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text,
   `status` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `movie`
---
 
 LOCK TABLES `movie` WRITE;
-/*!40000 ALTER TABLE `movie` DISABLE KEYS */;
-INSERT INTO `movie` VALUES (10,'http://n.sinaimg.cn/translate/640/w600h840/20190312/ampL-hufnxfm4278816.jpg','大森贵弘 /伊藤秀樹','','神谷浩史 /井上和彦 /高良健吾 /小林沙苗 /泽城美雪','动画',NULL,NULL,120,'2019-04-14 14:54:31','夏目友人帐','在人与妖怪之间过着忙碌日子的夏目，偶然与以前的同学结城重逢，由此回忆起了被妖怪缠身的苦涩记忆。此时，夏目认识了在归还名字的妖怪记忆中出现的女性·津村容莉枝。和玲子相识的她，现在和独子椋雄一同过着平稳的生活。夏目通过与他们的交流，心境也变得平和。但这对母子居住的城镇，却似乎潜伏着神秘的妖怪。在调查此事归来后，寄生于猫咪老师身体的“妖之种”，在藤原家的庭院中，一夜之间就长成树结出果实。而吃掉了与自己形状相似果实的猫咪老师，竟然分裂成了3个',0),(11,'','安娜·波顿',NULL,'布利·拉尔森','动作/冒险/科幻',NULL,NULL,120,'2019-04-16 14:55:31','惊奇队长','漫画中的初代惊奇女士曾经是一名美国空军均情报局探员，暗恋惊奇先生。。。',0),(12,'','1',NULL,'1','1',NULL,NULL,120,'2019-04-16 14:57:31','1','1',0),(13,'2','2',NULL,'2','2',NULL,NULL,120,'2019-04-16 14:52:31','2','2',0),(14,'','2',NULL,'2','2',NULL,NULL,120,'2019-04-18 13:23:15','2','2',1),(15,'1','1','1','1','1','1','1',111,'2019-04-16 15:00:24','nnmm,,,','1',0),(16,'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2549523952.webp','林孝谦','abcˆ','陈意涵','爱情','大陆',NULL,123,'2019-04-18 13:23:15','比悲伤更悲伤的故事','唱片制作人张哲凯(刘以豪)和王牌作词人宋媛媛(陈意涵)相依为命，两人自幼身世坎坷只有彼此为伴，他们是亲人、是朋友，也彷佛是命中注定的另一半。父亲罹患遗传重症而被母亲抛弃的哲凯，深怕自己随时会发病不久人世，始终没有跨出友谊的界线对媛媛展露爱意。眼见哲凯的病情加重，他暗自决定用剩余的生命完成他们之间的终曲，再为媛媛找个可以托付一生的好男人。这时，事业有 成温柔体贴的医生(张书豪)适时的出现让他成为照顾媛媛的最佳人选，二人按部就班发展着关系。一切看似都在哲凯的计划下进行。然而，故事远比这里所写更要悲伤......',1);
-/*!40000 ALTER TABLE `movie` ENABLE KEYS */;
+INSERT INTO `movie` VALUES
+(1, "https://p0.meituan.net/movie/47af2656af6cd0110057bc527b862c665484423.jpg@464w_644h_1e_1c", "动作,冒险,科幻", "美国", "英语", 114, "2019-06-06", "X战警：黑凤凰", "在一次危及生命的太空营救行动中，琴·葛蕾（苏菲·特纳 饰）被神秘的宇宙力量击中，成为最强大的变种人。此后琴不仅要设法掌控日益增长、极不稳定的力量，更要与自己内心的恶魔抗争，她的失控让整个X战警大家庭分崩离析，也让整个星球陷入毁灭的威胁之中……", 0),
+(2, "https://p0.meituan.net/movie/71fba05fbe4912cb70d27b87c3c856393364925.jpg@464w_644h_1e_1c", "科幻,灾难,动作", "美国", "英语", 132, "2019-05-31", "哥斯拉2：怪兽之王", "随着《哥斯拉》和《金刚：骷髅岛》在全球范围内的成功，华纳兄弟影片公司和传奇影业联手开启了怪兽宇宙系列电影的新篇章—一部史诗级动作冒险巨制。在这部电影中，哥斯拉将和众多大家在流行文化中所熟知的怪兽展开较量。全新故事中，研究神秘动物学的机构“帝王组织”成员将勇敢直面巨型怪兽，其中强大的哥斯拉也将和魔斯拉、拉顿和它的死对头——三头王基多拉展开激烈对抗。当这些只存在于传说里的超级生物再度崛起时，它们将展开王者争霸，人类的命运岌岌可危……", 0),
+(3, "https://p0.meituan.net/movie/b6e77d67efdc6ac89a52b956ead366ae5785152.jpg@464w_644h_1e_1c", "爱情,青春", "中国大陆", "国语", 110, "2019-06-06", "最好的我们", "每个人的心里大概都藏着一个念念不忘的人。一个偶然被提及的名字，让女摄影师耿耿（何蓝逗 饰）内心掀起万千波澜，触动了回忆的开关，那个撩人心动的少年余淮（陈飞宇 饰）再度闯进她的思绪。那是记忆里最好的时光，“学渣”耿耿和“学霸”余淮成了同桌，还结识了简单（王初伊 饰）、贝塔（周楚濋 饰）、徐延亮（陈帅 饰）。校园里充盈着专属少男少女们的懵懂、青涩、怦然心动和勇敢，耿耿余淮也拥有了他们的约定。高考后，当耿耿满怀期待憧憬约定兑现之时，余淮却忽然消失不见了。七年后两人重逢，余淮当年未说出口的那句话、他不辞而别的秘密，耿耿能否得到解答？这段耿耿于怀的过往，让两人再度面临情感的抉择……", 0),
+(4, "https://p0.meituan.net/movie/c0a02897fa49e5c529bfe3cead0f49652270427.jpg@464w_644h_1e_1c", "犯罪,剧情,动作", "中国大陆,中国香港", "国语", 103, "2019-06-06", "追龙Ⅱ", "悍匪龙志强（梁家辉 饰），在香港回归前，趁香港英政府不作为，而屡犯巨案，先后绑架富豪利家及雷家之长子，勒索超过二十亿元，事主怕被报复, 交赎款后都不敢报警。中国公安部极为关注，与香港警方合力，派香港警员何天（古天乐 饰）卧底潜入龙志强犯罪团伙，发现他正策划绑架澳门富豪贺不凡，最终陆港警察合力勇擒龙志强，救出贺不凡。", 0),
+(5, "https://p0.meituan.net/moviemachine/262f95bad79b6ae45b978593157cb68550938.jpg@464w_644h_1e_1c", "动作,科幻,冒险", "美国", "英语", 115, "2019-06-14", "黑衣人：全球追缉", "英国黑衣人总部王牌探员H（克里斯·海姆斯沃斯 饰）与新晋探员M（泰莎·汤普森 饰）在阻止外星团伙入侵的过程中意外铲除了隐藏在黑衣人组织中的内奸，成功拯救世界。", 0),
+(6, "https://p1.meituan.net/moviemachine/42ef79dd1d894b67dd57de383d753c03556009.jpg@464w_644h_1e_1c", "爱情,奇幻,冒险", "美国", "英语", 128, "2019-05-24", "阿拉丁", "在充满异域风情的古代阿拉伯王国，善良的穷小子阿拉丁（莫纳·马苏德 饰）和勇敢的茉莉公主（娜奥米·斯科特 饰）浪漫邂逅，在可以满足主人三个愿望的神灯精灵帮助下，两人踏上了一次寻找真爱和自我的魔幻冒险。", 0),
+(7, "https://p1.meituan.net/movie/06daf32301ff2fd54f6ffd59299d0326672524.jpg@464w_644h_1e_1c", "动画,剧情", "日本", "日语/国语", 111, "2019-06-01", "哆啦A梦：大雄的月球探险记", "月球探测器在月亮上捕捉到了白影，大雄（大原惠美 配音）认为这道白影是月亮上的兔子，惹来了大家的耻笑，于是哆啦A梦（水田山葵 配音）为了帮助大雄，利用道具“异说俱乐部徽章”，在月球背面制造了一个兔子王国。一天，神秘少年露卡（皆川纯子 配音）转学而来，与大雄和伙伴们一同前往月亮上的月兔王国展开了一场别开生面的浪漫想象力之旅。", 0),
+(8, "https://p0.meituan.net/movie/36b245c374ec10f6aba4d337f78e97f12022575.jpg@464w_644h_1e_1c", "剧情,爱情,犯罪", "印度", "英语", 133, "2019-06-05", "无所不能", "盲人罗汉（赫里尼克·罗斯汉 饰）对生活积极向上的态度让他跟平常人没什么两样。经人介绍，他认识了独立自信的盲人女孩苏皮莉亚（亚米·高塔姆 饰）。本来不想结婚的苏皮莉亚在罗汉的关心下慢慢意识到了幸福是存在的，两个有缺陷的人同样可以组成完整的家庭。 本应该开始幸福婚姻的两人，不幸遭遇到无妄之灾，突如其来的重大变故让罗汉陷入深深的悲痛、无助和绝望，继而开始了“独行侠”式的反击复仇。", 0),
+(9, "https://p0.meituan.net/movie/30b20139e68c46d02e0893277d633b701292458.jpg@464w_644h_1e_1c", "动画,奇幻,冒险,家庭", "日本", "日语/国语", 125, "2019-06-21", "千与千寻", "千寻和爸爸妈妈一同驱车前往新家，在郊外的小路上不慎进入了神秘的隧道——他们去到了另外一个诡异世界—一个中世纪的小镇。远处飘来食物的香味，爸爸妈妈大快朵颐，孰料之后变成了猪！这时小镇上渐渐来了许多样子古怪、半透明的人。千寻仓皇逃出，一个叫小白的人救了他，喂了她阻止身体消失的药，并且告诉她怎样去找锅炉爷爷以及汤婆婆，而且必须获得一份工作才能不被魔法变成别的东西。千寻在小白的帮助下幸运地获得了一份在浴池打杂的工作。渐渐她不再被那些怪模怪样的人吓倒，并从小玲那儿知道了小白是凶恶的汤婆婆的弟子。一次，千寻发现小白被一群白色飞舞的纸人打伤，为了救受伤的小白，她用河神送给她的药丸驱出了小白身体内的封印以及守封印的小妖精，但小白还是没有醒过来。为了救小白，千寻又踏上了她的冒险之旅。", 0),
+(10, "https://p0.meituan.net/movie/f29c0f9ff0340d00085f4bc1a395ecf02603950.jpg@464w_644h_1e_1c", "冒险,奇幻,喜剧", "美国", "英语", 104, "2019-05-10", "大侦探皮卡丘", "蒂姆·古德曼（贾斯提斯·史密斯 饰） 为寻找下落不明的父亲来到莱姆市，意外与父亲的前宝可梦搭档大侦探皮卡丘（瑞恩·雷诺兹 配音）相遇，并惊讶地发现自己是唯一能听懂皮卡丘说话的人类，他们决定组队踏上揭开真相的刺激冒险之路。探案过程中他们邂逅了各式各样的宝可梦，并意外发现了一个足以毁灭整个宝可梦宇宙的惊天阴谋。", 0);
 UNLOCK TABLES;
 
---
--- Table structure for table `movie_like`
---
-
-DROP TABLE IF EXISTS `movie_like`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `movie_like` (
-  `movie_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `like_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`movie_id`,`user_id`)
+DROP TABLE IF EXISTS `movieLike`;
+CREATE TABLE `movieLike` (
+  `movieId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`movieId`, `userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `movie_like`
---
-
-LOCK TABLES `movie_like` WRITE;
-/*!40000 ALTER TABLE `movie_like` DISABLE KEYS */;
-INSERT INTO `movie_like` VALUES (10,12,'2019-03-25 02:40:19'),(11,1,'2019-03-22 09:38:12'),(11,2,'2019-03-23 09:38:12'),(11,3,'2019-03-22 08:38:12'),(12,1,'2019-03-23 09:48:46'),(12,3,'2019-03-25 06:36:22'),(14,1,'2019-03-23 09:38:12'),(16,12,'2019-03-23 15:27:48');
-/*!40000 ALTER TABLE `movie_like` ENABLE KEYS */;
+LOCK TABLES `movieLike` WRITE;
+INSERT INTO `movieLike` VALUES
+                               (10,12,'2019-03-25 02:40:19'),
+                               (11,1,'2019-03-22 09:38:12'),
+                               (11,2,'2019-03-23 09:38:12'),
+                               (11,3,'2019-03-22 08:38:12'),
+                               (12,1,'2019-03-23 09:48:46'),
+                               (12,3,'2019-03-25 06:36:22'),
+                               (14,1,'2019-03-23 09:38:12'),
+                               (16,12,'2019-03-23 15:27:48');
 UNLOCK TABLES;
-
---
--- Table structure for table `schedule`
---
 
 DROP TABLE IF EXISTS `schedule`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `schedule` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `hall_id` int(11) NOT NULL,
-  `movie_id` int(11) NOT NULL,
-  `start_time` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `end_time` timestamp NOT NULL,
+  `hallId` int(11) NOT NULL,
+  `movieId` int(11) NOT NULL,
+  `startTime` timestamp NOT NULL,
   `fare` double NOT NULL,
+  `type` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `schedule`
---
 
 LOCK TABLES `schedule` WRITE;
-/*!40000 ALTER TABLE `schedule` DISABLE KEYS */;
-INSERT INTO `schedule` VALUES (20,1,12,'2019-04-13 17:00:00','2019-04-13 18:00:00',20.5),(21,1,10,'2019-04-11 12:00:00','2019-04-11 13:00:00',90),(27,1,11,'2019-04-17 18:01:00','2019-04-17 20:01:00',20.5),(28,1,11,'2019-04-19 16:00:00','2019-04-19 18:00:00',20.5),(30,1,11,'2019-04-18 18:01:00','2019-04-18 20:01:00',20.5),(31,1,11,'2019-04-12 16:00:00','2019-04-12 18:00:00',20.5),(32,1,11,'2019-04-12 20:00:00','2019-04-12 22:00:00',20.5),(37,1,11,'2019-04-15 00:00:00','2019-04-15 02:00:00',20.5),(38,1,11,'2019-04-14 17:00:00','2019-04-14 19:00:00',20.5),(40,1,10,'2019-04-10 16:00:00','2019-04-10 18:00:00',20.5),(41,1,11,'2019-04-10 19:00:00','2019-04-10 21:00:00',20.5),(42,1,11,'2019-04-10 22:00:00','2019-04-11 00:00:00',20.5),(43,1,10,'2019-04-11 01:00:00','2019-04-11 03:00:00',20.5),(44,2,10,'2019-04-11 01:00:00','2019-04-11 03:00:00',20.5),(45,2,10,'2019-04-10 22:00:00','2019-04-11 00:00:00',20.5),(46,2,11,'2019-04-10 19:00:00','2019-04-10 21:00:00',20.5),(47,2,11,'2019-04-10 16:00:00','2019-04-10 18:00:00',20.5),(48,2,10,'2019-04-11 13:00:00','2019-04-11 15:59:00',20.5),(50,1,10,'2019-04-15 16:00:00','2019-04-15 19:00:00',2),(51,1,10,'2019-04-17 05:00:00','2019-04-17 07:00:00',9),(52,1,10,'2019-04-18 05:00:00','2019-04-18 07:00:00',9),(53,1,16,'2019-04-19 07:00:00','2019-04-19 10:00:00',9),(54,1,16,'2019-04-16 19:00:00','2019-04-16 22:00:00',9),(55,1,15,'2019-04-17 23:00:00','2019-04-18 01:00:00',9),(56,2,10,'2019-04-19 13:00:00','2019-04-19 15:59:00',20.5),(57,2,10,'2019-04-20 13:00:00','2019-04-20 15:59:00',20.5),(58,2,10,'2019-04-21 13:00:00','2019-04-21 15:59:00',20.5),(61,1,13,'2019-04-20 11:00:00','2019-04-20 13:00:00',25),(62,1,11,'2019-04-20 08:00:00','2019-04-20 10:00:00',25),(63,2,15,'2019-04-20 16:01:30','2019-04-21 05:30:00',30),(64,1,16,'2019-04-22 02:00:00','2019-04-22 05:30:00',30),(65,1,10,'2019-04-23 02:00:00','2019-04-23 05:30:00',30),(66,2,13,'2019-04-21 07:31:29','2019-04-16 15:59:00',20.5),(67,2,10,'2019-04-25 13:00:00','2019-04-25 15:59:00',20.5),(68,2,10,'2019-04-26 13:00:00','2019-04-26 15:59:00',20.5);
-/*!40000 ALTER TABLE `schedule` ENABLE KEYS */;
+INSERT INTO `schedule` VALUES
+      (1, 1, 3,'2019-06-10 02:40:19', 70, "英语");
 UNLOCK TABLES;
 
---
--- Table structure for table `ticket`
---
-
-DROP TABLE IF EXISTS `ticket`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ticket` (
-  `user_id` int(11) DEFAULT NULL,
-  `schedule_id` int(11) DEFAULT NULL,
-  `column_index` int(11) DEFAULT NULL,
-  `row_index` int(11) DEFAULT NULL,
-  `state` tinyint(4) DEFAULT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+DROP TABLE IF EXISTS `seat`;
+CREATE TABLE `seat` (
+                          `orderId` int(11) DEFAULT NULL,
+                          `columnIndex` int(11) DEFAULT NULL,
+                          `rowIndex` int(11) DEFAULT NULL,
+                          `id` int(11) NOT NULL AUTO_INCREMENT,
+                          PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `ticket`
---
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE `order` (
+                        `userId` int(11) DEFAULT NULL,
+                        `scheduleId` int(11) DEFAULT NULL,
+                        `time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                        `status` tinyint(4) DEFAULT NULL,
+                        `price` int(11) DEFAULT NULL,
+                        `method` tinyint(4) DEFAULT NULL,
+                        `id` int(11) NOT NULL AUTO_INCREMENT,
+                        PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4;
 
-LOCK TABLES `ticket` WRITE;
-/*!40000 ALTER TABLE `ticket` DISABLE KEYS */;
-INSERT INTO `ticket` VALUES (12,50,5,3,2,1,'2019-04-23 13:50:52'),(12,50,5,3,2,2,'2019-04-23 13:50:52'),(12,50,5,3,2,3,'2019-04-23 13:50:52'),(12,50,5,3,2,4,'2019-04-23 13:50:52'),(12,50,5,3,0,5,'2019-04-23 13:50:52'),(15,50,4,3,0,6,'2019-04-23 13:50:52'),(15,58,0,0,1,15,'2019-04-23 13:50:52'),(15,58,2,0,1,16,'2019-04-23 13:50:52'),(15,58,1,1,1,17,'2019-04-23 13:50:52'),(15,58,11,7,1,18,'2019-04-23 13:50:52'),(13,50,4,2,1,19,'2019-04-23 13:50:52'),(15,66,3,2,1,20,'2019-04-23 13:50:52'),(12,50,1,1,1,21,'2019-04-23 13:50:52'),(13,50,4,3,1,22,'2019-04-23 13:50:52'),(15,50,2,2,1,23,'2019-04-23 13:50:52'),(15,58,0,7,0,24,'2019-04-23 13:50:52'),(15,58,5,4,0,25,'2019-04-23 13:50:52'),(15,58,6,4,0,26,'2019-04-23 13:50:52'),(15,58,6,2,0,27,'2019-04-23 13:50:52'),(15,58,7,2,0,28,'2019-04-23 13:50:52'),(15,58,0,4,0,29,'2019-04-23 13:50:52'),(15,58,0,3,0,30,'2019-04-23 13:50:52'),(15,58,0,2,0,31,'2019-04-23 13:50:52'),(15,58,10,0,0,32,'2019-04-23 13:50:52'),(15,58,11,0,0,33,'2019-04-23 13:50:52'),(15,58,8,0,0,34,'2019-04-23 13:50:52'),(15,58,9,0,0,35,'2019-04-23 13:50:52'),(15,58,5,0,0,36,'2019-04-23 13:50:52'),(15,58,6,0,0,37,'2019-04-23 13:50:52'),(15,58,6,7,0,38,'2019-04-23 13:50:52'),(15,58,7,7,0,39,'2019-04-23 13:50:52'),(15,58,8,7,0,40,'2019-04-23 13:50:52'),(15,58,11,4,0,41,'2019-04-23 13:50:52'),(15,58,11,5,0,42,'2019-04-23 13:50:52'),(15,58,9,6,0,43,'2019-04-23 13:50:52'),(15,58,10,6,0,44,'2019-04-23 13:50:52'),(15,58,11,6,0,45,'2019-04-23 13:50:52'),(15,58,3,5,1,46,'2019-04-23 13:50:52'),(15,58,4,5,1,47,'2019-04-23 13:50:52'),(15,58,5,5,1,48,'2019-04-23 13:50:52'),(15,58,11,2,0,49,'2019-04-23 13:50:52'),(15,58,11,3,0,50,'2019-04-23 13:50:52'),(15,58,9,4,0,51,'2019-04-23 13:50:52'),(15,58,9,3,1,52,'2019-04-23 13:50:52'),(15,58,10,3,1,53,'2019-04-23 13:50:52'),(15,65,7,4,0,54,'2019-04-23 13:50:52'),(15,65,8,4,0,55,'2019-04-23 13:50:52'),(15,65,9,4,0,56,'2019-04-23 13:50:52'),(15,65,7,3,0,57,'2019-04-23 13:50:52'),(15,65,8,3,0,58,'2019-04-23 13:50:52'),(15,65,9,3,0,59,'2019-04-23 13:50:52'),(15,65,0,0,1,60,'2019-04-23 13:50:52'),(15,65,0,1,1,61,'2019-04-23 13:50:52'),(15,65,0,2,1,62,'2019-04-23 13:50:52');
-/*!40000 ALTER TABLE `ticket` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user`
---
+DROP TABLE IF EXISTS `refund`;
+CREATE TABLE `refund` (
+                         `hours` int(11) DEFAULT NULL,
+                         `get` double DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
+  `role` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id_uindex` (`id`),
   UNIQUE KEY `user_username_uindex` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user`
---
 
 LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'testname','123456'),(3,'test','123456'),(5,'test1','123456'),(7,'test121','123456'),(8,'root','123456'),(10,'roottt','123123'),(12,'zhourui','123456'),(13,'abc123','abc123'),(15,'dd','123');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+INSERT INTO `user` VALUES
+                          (1,'testname','123456',0),
+                          (3,'test','123456',0),
+                          (5,'test1','123456',0),
+                          (7,'test121','123456',0),
+                          (8,'root','123456',1),
+                          (9,'root2','123456',2),
+                          (10,'roottt','123123',0),
+                          (12,'zhourui','123456',0),
+                          (13,'abc123','abc123',0),
+                          (15,'dd','123',0);
 UNLOCK TABLES;
-
---
--- Table structure for table `view`
---
 
 DROP TABLE IF EXISTS `view`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `view` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `day` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  `day` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `view`
---
 
 LOCK TABLES `view` WRITE;
-/*!40000 ALTER TABLE `view` DISABLE KEYS */;
-INSERT INTO `view` VALUES (1,7);
-/*!40000 ALTER TABLE `view` ENABLE KEYS */;
+INSERT INTO `view` VALUES (30);
 UNLOCK TABLES;
 
---
--- Table structure for table `vip_card`
---
-
-DROP TABLE IF EXISTS `vip_card`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `vip_card` (
+DROP TABLE IF EXISTS `vipCard`;
+CREATE TABLE `vipCard` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `balance` float DEFAULT NULL,
-  `join_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `userId` int(11) DEFAULT NULL,
+  `balance` int DEFAULT NULL,
+  `joinDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `vip_card_user_id_uindex` (`user_id`)
+  UNIQUE KEY `vip_card_user_id_uindex` (`userId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `vip_card`
---
-
-LOCK TABLES `vip_card` WRITE;
-/*!40000 ALTER TABLE `vip_card` DISABLE KEYS */;
-INSERT INTO `vip_card` VALUES (1,15,375,'2019-04-21 13:54:38'),(2,12,660,'2019-04-17 18:47:42');
-/*!40000 ALTER TABLE `vip_card` ENABLE KEYS */;
+LOCK TABLES `vipCard` WRITE;
+INSERT INTO `vipCard` VALUES (1,15,375,'2019-04-21 13:54:38'),
+                             (2,12,660,'2019-04-17 18:47:42');
 UNLOCK TABLES;
 
---
--- Table structure for table `card_promotion`
---
-
-DROP TABLE IF EXISTS `card_promotion`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `card_promotion` (
-  `meet` int(11) DEFAULT NULL,
-  `give` int(11) DEFAULT NULL,
-  PRIMARY KEY (`meet`),
+DROP TABLE IF EXISTS `cardPromotion`;
+CREATE TABLE `cardPromotion` (
+  `target` int(11) DEFAULT NULL,
+  `gift` int(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `card_promotion`
---
-
-LOCK TABLES `card_promotion` WRITE;
-/*!40000 ALTER TABLE `card_promotion` DISABLE KEYS */;
-INSERT INTO `card_promotion` VALUES (300, 30),(500, 80),(800, 160),(1000000, 2000000);
-/*!40000 ALTER TABLE `card_promotion` ENABLE KEYS */;
+LOCK TABLES `cardPromotion` WRITE;
+INSERT INTO `cardPromotion` VALUES (30000, 3000),
+                                   (50000, 8000),
+                                   (80000, 16000),
+                                   (100000000, 200000000);
 UNLOCK TABLES;
 
---
--- Dumping events for database 'cinema'
---
 
---
--- Dumping routines for database 'cinema'
---
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2019-04-24 21:20:52
+DROP TABLE IF EXISTS `cardCharge`;
+CREATE TABLE `cardCharge` (
+                 `id` int(11) DEFAULT NULL,
+                 `charge` int(11) DEFAULT NULL,
+                 `gift` int(11) DEFAULT NULL,
+                 `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                 `mention` int(11) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;

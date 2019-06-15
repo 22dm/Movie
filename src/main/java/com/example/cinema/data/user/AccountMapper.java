@@ -4,6 +4,8 @@ import com.example.cinema.po.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @author huwen
  * @date 2019/3/23
@@ -24,5 +26,13 @@ public interface AccountMapper {
      * @param username
      * @return
      */
-    public User getAccountByName(@Param("username") String username);
+    User getAccountByName(String username);
+
+    List<User> selectManager();
+
+    void insertManager(User user);
+
+    void updateManager(User user);
+
+    void deleteManager(int userId);
 }

@@ -14,12 +14,20 @@ public interface AccountService {
      * 注册账号
      * @return
      */
-    public ResponseVO registerAccount(UserForm userForm);
+    public ResponseVO add(UserForm userForm);
 
     /**
      * 用户登录，登录成功会将用户信息保存再session中
      * @return
      */
     public UserVO login(UserForm userForm);
+
+    public ResponseVO getManager();
+
+    public ResponseVO addManager(UserForm userForm);
+
+    public ResponseVO editManager(UserForm userForm);
+
+    public ResponseVO deleteManager(int userId);
 
 }

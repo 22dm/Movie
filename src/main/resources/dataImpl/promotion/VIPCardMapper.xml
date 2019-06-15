@@ -1,30 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.cinema.data.promotion.VIPCardMapper">
-    <insert id="insertOneCard" parameterType="com.example.cinema.po.VIPCard"
-            useGeneratedKeys="true" keyProperty="id">
-        insert into vip_card(user_id,balance)
+    <insert id="insert" parameterType="com.example.cinema.po.VIPCard" useGeneratedKeys="true" keyProperty="id">
+        insert into vipCard(userId, balance)
         values(#{userId}, #{balance})
     </insert>
 
-    <select id="selectCardById" resultMap="VIPCard">
-        select * from vip_card where id=#{id}
+    <select id="select" resultType="com.example.cinema.po.VIPCard">
+        select * from vipCard where userId=#{userId}
     </select>
 
-    <select id="selectCardByUserId" resultMap="VIPCard">
-        select * from vip_card where user_id=#{userId}
+    <select id="selectPromotion" resultType="com.example.cinema.po.CardPromotion">
+        select * from cardPromotion
     </select>
 
-    <resultMap id="VIPCard" type="com.example.cinema.po.VIPCard">
-        <result column="join_time" property="joinDate"></result>
-        <result column="id" property="id"></result>
-        <result column="user_id" property="userId"></result>
-        <result column="balance" property="balance"></result>
-    </resultMap>
+    <select id="selectGift" resultType="int">
+        select gift from cardPromotion where target=#{target}
+    </select>
 
-    <update id="updateCardBalance" >
-        update vip_card set balance = #{balance} where id=#{id}
+    <insert id="insertPromotion" parameterType="com.example.cinema.po.CardPromotion">
+        insert into cardPromotion(target, gift)
+        values(#{target}, #{gift})
+    </insert>
+
+    <delete id="deletePromotion">
+        delete from cardPromotion where target=#{target}
+    </delete>
+
+    <insert id="charge">
+        insert into cardCharge(id, charge, gift, mention)
+        values(#{cardId}, #{charge}, #{gift}, #{mention})
+    </insert>
+
+    <select id="selectCharge" resultType="com.example.cinema.po.CardCharge">
+        select * from cardCharge where id=#{cardId}
+    </select>
+
+    <update id="addBalance">
+        update vipCard set balance = balance + #{balance} where id=#{cardId}
     </update>
-
-
 </mapper>

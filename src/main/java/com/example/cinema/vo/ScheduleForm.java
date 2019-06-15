@@ -2,35 +2,33 @@ package com.example.cinema.vo;
 
 import java.util.Date;
 
-/**
- * @author fjj
- * @date 2019/4/11 4:09 PM
- */
 public class ScheduleForm {
-    /**
-     * id
-     */
+
+    //排片 ID
     private Integer id;
-    /**
-     * 影厅id
-     */
+
+    //影厅 ID
     private Integer hallId;
-    /**
-     * 电影id
-     */
+
+    //电影 ID
     private Integer movieId;
-    /**
-     *  电影开始放映的时间
-     */
+
+    //开始时间
     private Date startTime;
-    /**
-     * 电影结束放映的时间
-     */
-    private Date endTime;
-    /**
-     * 电影票价
-     */
-    private Double fare;
+
+    //票价
+    private int fare;
+
+    //类型
+    private String type;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getHallId() {
         return hallId;
@@ -56,27 +54,19 @@ public class ScheduleForm {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
-    public Double getFare() {
+    public int getFare() {
         return fare;
     }
 
-    public void setFare(Double fare) {
+    public void setFare(int fare) {
         this.fare = fare;
     }
 
-    public Integer getId() {
-        return id;
+    public String getType() {
+        return type;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setType(String type) {
+        this.type = type;
     }
 }

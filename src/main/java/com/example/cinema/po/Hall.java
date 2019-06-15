@@ -1,20 +1,37 @@
 package com.example.cinema.po;
 
-/**
- * @author fjj
- * @date 2019/4/28 5:09 PM
- */
-public class Hall {
-    private Integer id;
-    private String name;
-    private Integer row;
-    private Integer column;
+import com.example.cinema.vo.HallForm;
 
-    public Integer getId() {
+public class Hall {
+
+    //影厅 ID
+    private int id;
+
+    //影厅名称
+    private String name;
+
+    //影厅行数
+    private int row;
+
+    //影厅列数
+    private int column;
+
+    public Hall(){
+
+    }
+
+    public Hall(HallForm hallForm){
+        id = hallForm.getId();
+        name = hallForm.getName();
+        row = hallForm.getRow();
+        column = hallForm.getColumn();
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -26,19 +43,19 @@ public class Hall {
         this.name = name;
     }
 
-    public Integer getRow() {
+    public int getRow() {
         return row;
     }
 
-    public void setRow(Integer row) {
+    public void setRow(int row) {
         this.row = row;
     }
 
-    public Integer getColumn() {
+    public int getColumn() {
         return column;
     }
 
-    public void setColumn(Integer column) {
+    public void setColumn(int column) {
         this.column = column;
     }
 }

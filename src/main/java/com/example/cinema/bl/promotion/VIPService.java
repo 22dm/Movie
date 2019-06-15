@@ -1,25 +1,21 @@
 package com.example.cinema.bl.promotion;
 
-import com.example.cinema.vo.VIPCardForm;
+import com.example.cinema.vo.CardBuyForm;
+import com.example.cinema.vo.CardChargeForm;
+import com.example.cinema.vo.CardPromotionForm;
 import com.example.cinema.vo.ResponseVO;
-
-
-
-/**
- * Created by liying on 2019/4/14.
- */
 
 public interface VIPService {
 
-    ResponseVO addVIPCard(int userId);
+    ResponseVO buy(CardBuyForm cardBuyForm);
 
-    ResponseVO getCardById(int id);
+    ResponseVO get(int userId);
 
-    ResponseVO getVIPInfo();
+    ResponseVO getPromotion();
 
-    ResponseVO charge(VIPCardForm vipCardForm);
+    ResponseVO addPromotion(CardPromotionForm cardPromotionForm);
 
-    ResponseVO getCardByUserId(int userId);
+    ResponseVO deletePromotion(int target);
 
-
+    ResponseVO charge(CardChargeForm cardChargeForm);
 }

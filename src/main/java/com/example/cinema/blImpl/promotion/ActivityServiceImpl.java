@@ -1,54 +1,73 @@
 package com.example.cinema.blImpl.promotion;
 
 import com.example.cinema.bl.promotion.ActivityService;
-import com.example.cinema.bl.promotion.CouponService;
+import com.example.cinema.blImpl.management.movie.MovieServiceForBl;
 import com.example.cinema.data.promotion.ActivityMapper;
 import com.example.cinema.po.Activity;
-import com.example.cinema.po.Coupon;
+import com.example.cinema.po.ActivityMovie;
 import com.example.cinema.vo.ActivityForm;
+import com.example.cinema.vo.ActivityVO;
 import com.example.cinema.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Created by liying on 2019/4/20.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ActivityServiceImpl implements ActivityService {
 
     @Autowired
     ActivityMapper activityMapper;
     @Autowired
-    CouponService couponService;
+    CouponServiceForBl couponServiceForBl;
+    @Autowired
+    MovieServiceForBl movieServiceForBl;
 
     @Override
     @Transactional
-    public ResponseVO publishActivity(ActivityForm activityForm) {
+    public ResponseVO add(ActivityForm activityForm) {
         try {
-            ResponseVO vo = couponService.addCoupon(activityForm.getCouponForm());
-            Coupon coupon = (Coupon) vo.getContent();
-            Activity activity = new Activity();
-            activity.setName(activityForm.getName());
-            activity.setDescription(activityForm.getName());
-            activity.setStartTime(activityForm.getStartTime());
-            activity.setEndTime(activityForm.getEndTime());
-            activity.setCoupon(coupon);
+            Activity activity = new Activity(activityForm);
             activityMapper.insertActivity(activity);
-            if(activityForm.getMovieList()!=null&&activityForm.getMovieList().size()!=0){
-                activityMapper.insertActivityAndMovie(activity.getId(), activityForm.getMovieList());
+            int activityId = activity.getId();
+            System.out.println(activityId);
+            List<Integer> movieIds = activityForm.getMovies();
+            if(!movieIds.isEmpty()){
+                List<ActivityMovie> activityMovies = new ArrayList<>();
+                for(int movieId : movieIds){
+                    ActivityMovie activityMovie = new ActivityMovie();
+                    activityMovie.setActivityId(activityId);
+                    activityMovie.setMovieId(movieId);
+                    activityMovies.add(activityMovie);
+                }
+                activityMapper.insertActivityMovie(activityMovies);
             }
-            return ResponseVO.buildSuccess(activityMapper.selectById(activity.getId()));
+            return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure("创建优惠活动失败");
         }
     }
 
     @Override
-    public ResponseVO getActivities() {
+    public ResponseVO getAll() {
         try {
-            return ResponseVO.buildSuccess(activityMapper.selectActivities().stream().map(Activity::getVO));
+            List<Activity> activities = activityMapper.selectAllActivity();
+            List<ActivityVO> activityVOS = new ArrayList<>();
+            for(Activity activity: activities){
+                ActivityVO activityVO = new ActivityVO(activity);
+                List<Integer> movieIds = activityMapper.selectActivityMovie(activity.getId());
+                List<String> movieNames = new ArrayList<>();
+                for(int movieId : movieIds){
+                    movieNames.add(movieServiceForBl.getVO(movieId).getName());
+                }
+                activityVO.setMovies(movieNames);
+                activityVO.setCoupon(couponServiceForBl.getById(activity.getCouponId()));
+                activityVOS.add(activityVO);
+            }
+            return ResponseVO.buildSuccess(activityVOS);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure("失败");

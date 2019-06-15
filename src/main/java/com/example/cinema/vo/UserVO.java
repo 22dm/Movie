@@ -2,19 +2,29 @@ package com.example.cinema.vo;
 
 import com.example.cinema.po.User;
 
-/**
- * @author fjj
- * @date 2019/4/11 3:22 PM
- */
 public class UserVO {
+
+    //用户 ID
     private Integer id;
+
+    //用户名
     private String username;
+
+    //密码
     private String password;
 
+    //角色
+    private int role;
+
+    public UserVO(){
+
+    }
+
     public UserVO(User user){
-        this.id = user.getId();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
+        id = user.getId();
+        username = user.getUsername();
+        password = user.getPassword();
+        role = user.getRole();
     }
 
     public Integer getId() {
@@ -39,5 +49,13 @@ public class UserVO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 }

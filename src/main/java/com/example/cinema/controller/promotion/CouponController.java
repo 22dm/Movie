@@ -1,16 +1,11 @@
 package com.example.cinema.controller.promotion;
 
 import com.example.cinema.bl.promotion.CouponService;
+import com.example.cinema.vo.CouponForm;
 import com.example.cinema.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-/**
- * Created by liying on 2019/4/16.
- */
 @RestController
 @RequestMapping("/coupon")
 public class CouponController {
@@ -18,11 +13,23 @@ public class CouponController {
     @Autowired
     CouponService couponService;
 
-    @GetMapping("{userId}/get")
-    public ResponseVO getCoupons(@PathVariable int userId){
-        return couponService.getCouponsByUser(userId);
+    @PostMapping("/add")
+    public ResponseVO addCoupon(@RequestBody CouponForm couponForm){
+        return couponService.add(couponForm);
     }
 
+    @GetMapping("/getAll")
+    public ResponseVO getAllCoupon(){
+        return couponService.getAll();
+    }
 
+    @GetMapping("/getByUserId")
+    public ResponseVO getCouponsByUserId(@RequestParam int userId){
+        return couponService.getByUserId(userId);
+    }
 
+    @GetMapping("/getByOrderId")
+    public ResponseVO getCouponsByOrderId(@RequestParam int orderId){
+        return couponService.getByOrderId(orderId);
+    }
 }

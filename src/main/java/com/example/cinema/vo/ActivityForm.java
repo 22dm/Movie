@@ -3,34 +3,25 @@ package com.example.cinema.vo;
 import java.sql.Timestamp;
 import java.util.List;
 
-/**
- * Created by liying on 2019/4/20.
- */
 public class ActivityForm {
-    /**
-     * 优惠活动名称
-     */
+
+    //活动名称
     private String name;
-    /**
-     * 优惠活动描述
-     */
+
+    //活动描述
     private String description;
-    /**
-     * 优惠活动开始时间
-     */
+
+    //开始时间
     private Timestamp startTime;
-    /**
-     * 优惠活动截止时间
-     */
+
+    //结束时间
     private Timestamp endTime;
-    /**
-     * 优惠电影列表
-     */
-    private List<Integer> movieList;
-    /**
-     * 优惠券规格
-     */
-    private CouponForm couponForm;
+
+    //优惠电影 ID 列表
+    private List<Integer> movies;
+
+    //优惠券 ID
+    private int couponId;
 
 
     public ActivityForm() {
@@ -69,19 +60,19 @@ public class ActivityForm {
         this.endTime = endTime;
     }
 
-    public List<Integer> getMovieList() {
-        return movieList;
+    public List<Integer> getMovies() {
+        return movies;
     }
 
-    public void setMovieList(List<Integer> movieList) {
-        this.movieList = movieList;
+    public void setMovies(List<Integer> movies) {
+        this.movies = movies;
     }
 
-    public CouponForm getCouponForm() {
-        return couponForm;
+    public int getCouponId() {
+        return couponId;
     }
 
-    public void setCouponForm(CouponForm couponForm) {
-        this.couponForm = couponForm;
+    public void setCouponId(int couponId) {
+        this.couponId = couponId;
     }
 }

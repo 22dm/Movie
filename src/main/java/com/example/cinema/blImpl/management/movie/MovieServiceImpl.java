@@ -1,27 +1,18 @@
 package com.example.cinema.blImpl.management.movie;
 
 import com.example.cinema.bl.management.MovieService;
-import com.example.cinema.blImpl.management.schedule.MovieServiceForBl;
 import com.example.cinema.blImpl.management.schedule.ScheduleServiceForBl;
 import com.example.cinema.data.management.MovieMapper;
 import com.example.cinema.po.Movie;
-import com.example.cinema.po.ScheduleItem;
 import com.example.cinema.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
-/**
- * @author fjj
- * @date 2019/3/12 6:43 PM
- */
 @Service
 public class MovieServiceImpl implements MovieService, MovieServiceForBl {
-    private static final String SCHEDULE_ERROR_MESSAGE = "有电影后续仍有排片或已有观众购票且未使用";
 
     @Autowired
     private MovieMapper movieMapper;
@@ -29,9 +20,9 @@ public class MovieServiceImpl implements MovieService, MovieServiceForBl {
     private ScheduleServiceForBl scheduleServiceForBl;
 
     @Override
-    public ResponseVO addMovie(MovieForm addMovieForm) {
+    public ResponseVO add(MovieForm movieForm){
         try {
-            movieMapper.insertOneMovie(addMovieForm);
+            movieMapper.insert(new Movie(movieForm));
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,76 +31,125 @@ public class MovieServiceImpl implements MovieService, MovieServiceForBl {
     }
 
     @Override
-    public ResponseVO searchOneMovieByIdAndUserId(int id, int userId) {
+    public ResponseVO edit(MovieForm movieForm) {
         try {
-            Movie movie = movieMapper.selectMovieByIdAndUserId(id, userId);
-            if(movie != null){
-                return ResponseVO.buildSuccess(new MovieVO(movie));
-            }else{
-                return ResponseVO.buildSuccess(null);
+            if(preCheck(movieForm.getId())){
+                movieMapper.update(new Movie(movieForm));
+                return ResponseVO.buildSuccess();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
             return ResponseVO.buildFailure("失败");
-        }
-
-    }
-
-    @Override
-    public ResponseVO searchAllMovie() {
-        try {
-            return ResponseVO.buildSuccess(movieList2MovieVOList(movieMapper.selectAllMovie()));
-        } catch (Exception e) {
+        }catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure("失败");
         }
     }
 
     @Override
-    public ResponseVO searchOtherMoviesExcludeOff() {
+    public ResponseVO delete(int id){
         try {
-            return ResponseVO.buildSuccess(movieList2MovieVOList(movieMapper.selectOtherMoviesExcludeOff()));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
-        }
-    }
-
-    @Override
-    public ResponseVO getMovieByKeyword(String keyword) {
-        if (keyword==null||keyword.equals("")){
-            return ResponseVO.buildSuccess(movieList2MovieVOList(movieMapper.selectAllMovie()));
-        }
-        return ResponseVO.buildSuccess(movieList2MovieVOList(movieMapper.selectMovieByKeyword(keyword)));
-    }
-
-
-
-    @Override
-    public ResponseVO pullOfBatchOfMovie(MovieBatchOffForm movieBatchOffForm) {
-        try {
-            List<Integer> movieIdList =  movieBatchOffForm.getMovieIdList();
-            ResponseVO responseVO = preCheck(movieIdList);
-            if(!responseVO.getSuccess()){
-                return responseVO;
+            if(preCheck(id)){
+                movieMapper.delete(id);
+                return ResponseVO.buildSuccess();
             }
-            movieMapper.updateMovieStatusBatch(movieIdList);
-            return ResponseVO.buildSuccess();
+            return ResponseVO.buildFailure("失败");
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
 
-        } catch (Exception e) {
+    private boolean preCheck(int id){
+        return true;
+    }
+
+    @Override
+    public ResponseVO getAll(){
+        try {
+            List<Movie> movies = movieMapper.selectAll();
+            return ResponseVO.buildSuccess(movieList2MovieVOList(movies));
+        }catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure("失败");
         }
     }
 
     @Override
-    public ResponseVO updateMovie(MovieForm updateMovieForm) {
+    public ResponseVO get(int id){
         try {
-            ResponseVO responseVO = preCheck(Arrays.asList(updateMovieForm.getId()));
-            if(!responseVO.getSuccess()){
-                return responseVO;
-            }
-            movieMapper.updateMovie(updateMovieForm);
+            Movie movie = movieMapper.selectById(id);
+            return ResponseVO.buildSuccess(new MovieVO(movie));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
+
+    @Override
+    public ResponseVO getByIdWithLike(int movieId, int userId){
+        try {
+            MovieLikeVO movieLikeVO = new MovieLikeVO();
+            movieLikeVO.setName(movieMapper.selectById(movieId).getName());
+            movieLikeVO.setCount(movieMapper.likeCount(movieId));
+            movieLikeVO.setIsLike(movieMapper.ifLike(movieId, userId));
+            return ResponseVO.buildSuccess(movieLikeVO);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
+
+    @Override
+    public ResponseVO getOn(){
+        try {
+            List<Movie> movies = movieMapper.selectOn();
+            System.out.println(movies.size());
+            return ResponseVO.buildSuccess(movieList2MovieVOList(movies));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
+
+    @Override
+    public ResponseVO getOff(){
+        try {
+            List<Movie> movies = movieMapper.selectOff();
+            System.out.println("OFF" + movies.size());
+            return ResponseVO.buildSuccess(movieList2MovieVOList(movies));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
+
+    @Override
+    public ResponseVO getPre(){
+        try {
+            List<Movie> movies = movieMapper.selectPre();
+            System.out.println(movies.size());
+            return ResponseVO.buildSuccess(movieList2MovieVOList(movies));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
+
+    @Override
+    public ResponseVO getOnAndPre(){
+        try {
+            List<Movie> movies = movieMapper.selectOnAndPre();
+            System.out.println(movies.size());
+            return ResponseVO.buildSuccess(movieList2MovieVOList(movies));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
+
+    @Override
+    public ResponseVO like(int movieId, int userId){
+        try {
+            movieMapper.like(movieId, userId);
             return ResponseVO.buildSuccess();
         }catch (Exception e) {
             e.printStackTrace();
@@ -118,38 +158,50 @@ public class MovieServiceImpl implements MovieService, MovieServiceForBl {
     }
 
     @Override
-    public Movie getMovieById(int id) {
+    public ResponseVO unlike(int movieId,  int userId){
         try {
-            return movieMapper.selectMovieById(id);
-        }catch (Exception e){
+            movieMapper.unlike(movieId, userId);
+            return ResponseVO.buildSuccess();
+        }catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return ResponseVO.buildFailure("失败");
         }
-
     }
 
-    /**
-     * 下架和修改电影的前置检查
-     * @param movieIdList
-     * @return
-     */
-    public ResponseVO preCheck(List<Integer> movieIdList){
-        Date thisTime = new Date();
-        List<ScheduleItem> scheduleItems = scheduleServiceForBl.getScheduleByMovieIdList(movieIdList);
-
-        // 检查是否有电影后续有排片及是否有观众购票未使用
-        for(ScheduleItem s : scheduleItems){
-            if(s.getEndTime().after(thisTime)){
-                return ResponseVO.buildFailure(SCHEDULE_ERROR_MESSAGE);
-            }
-        }
-        return ResponseVO.buildSuccess();
+    @Override
+    public ResponseVO likeCount(int id){
+        return ResponseVO.buildFailure("失败-TODO");
     }
 
+    @Override
+    public ResponseVO allLikeCount(){
+        try {
+            List<Movie> movies = movieMapper.allLikeCount();
+            return ResponseVO.buildSuccess(movies);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
 
-    private List<MovieVO> movieList2MovieVOList(List<Movie> movieList){
+    @Override
+    public ResponseVO search(String keyword){
+        try {
+            return ResponseVO.buildSuccess(movieList2MovieVOList(movieMapper.search(keyword)));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("失败");
+        }
+    }
+
+    @Override
+    public MovieVO getVO(int id){
+        return new MovieVO(movieMapper.selectById(id));
+    }
+
+    private List<MovieVO> movieList2MovieVOList(List<Movie> movies){
         List<MovieVO> movieVOList = new ArrayList<>();
-        for(Movie movie : movieList){
+        for(Movie movie : movies){
             movieVOList.add(new MovieVO(movie));
         }
         return movieVOList;

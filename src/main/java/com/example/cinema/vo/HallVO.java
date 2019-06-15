@@ -2,28 +2,36 @@ package com.example.cinema.vo;
 
 import com.example.cinema.po.Hall;
 
-/**
- * @author fjj
- * @date 2019/4/11 3:46 PM
- */
 public class HallVO {
-    private Integer id;
-    private String name;
-    private Integer row;
-    private Integer column;
 
-    public HallVO(Hall hall){
-        this.id = hall.getId();
-        this.name = hall.getName();
-        this.row = hall.getRow();
-        this.column = hall.getColumn();
+    //影厅 ID
+    private int id;
+
+    //影厅名称
+    private String name;
+
+    //影厅行数
+    private int row;
+
+    //影厅列数
+    private int column;
+
+    public HallVO(){
+
     }
 
-    public Integer getId() {
+    public HallVO(Hall hall){
+        id = hall.getId();
+        name = hall.getName();
+        row = hall.getRow();
+        column = hall.getColumn();
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -35,19 +43,19 @@ public class HallVO {
         this.name = name;
     }
 
-    public Integer getRow() {
+    public int getRow() {
         return row;
     }
 
-    public void setRow(Integer row) {
+    public void setRow(int row) {
         this.row = row;
     }
 
-    public Integer getColumn() {
+    public int getColumn() {
         return column;
     }
 
-    public void setColumn(Integer column) {
+    public void setColumn(int column) {
         this.column = column;
     }
 }

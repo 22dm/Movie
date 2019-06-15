@@ -1,18 +1,26 @@
 package com.example.cinema.vo;
 
-/**
- * @author huwen
- * @date 2019/3/23
- */
 public class UserForm {
-    /**
-     * 用户名，不可重复
-     */
+
+    //用户 ID
+    private Integer id;
+
+    //用户名
     private String username;
-    /**
-     * 用户密码
-     */
+
+    //密码
     private String password;
+
+    //用户角色
+    private int role;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -28,5 +36,13 @@ public class UserForm {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 }

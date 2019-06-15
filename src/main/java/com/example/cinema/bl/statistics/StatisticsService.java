@@ -47,4 +47,6 @@ public interface StatisticsService {
      * @return
      */
     ResponseVO getPopularMovies(int days, int movieNum);
+
+    ResponseVO getTopUser(int cost);
 }

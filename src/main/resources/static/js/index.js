@@ -1,53 +1,41 @@
 $(document).ready(function () {
+    getMovieList('');
 
-    $("#login-btn").click(function () {
-        var formData = getLoginForm();
-        if (!validateLoginForm(formData)) {
-            return;
-        }
-
-        postRequest(
-            '/login',
-            formData,
+    function getMovieList(keyword) {
+        getRequest(
+            `/movie/search?keyword=${keyword}`,
             function (res) {
-                if (res.success) {
-                    sessionStorage.setItem('username', formData.username);
-                    sessionStorage.setItem('id', res.content.id);
-                    if (formData.username == "root") {
-                        sessionStorage.setItem('role', 'admin');
-                        window.location.href = "/admin/movie/manage"
-                    } else {
-                        sessionStorage.setItem('role', 'user');
-                        window.location.href = "/user/home"
-                    }
-                } else {
-                    alert(res.message);
-                }
+                renderMovieList(res.content);
             },
             function (error) {
                 alert(error);
             });
+    }
+
+    function renderMovieList(list) {
+        let movieList = $('#movie-list');
+        movieList.empty();
+        let movieDomStr = '';
+        list.forEach(function (movie) {
+            movieDomStr +=
+                `<div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                    <article class="article">
+                        <div class="article-header" style='height: 236px'>
+                            <div class="article-image" id="movie-poster-${movie.id}"></div>
+                            <div class="article-title">
+                                <h2><a href="/user/movieDetail?id=${movie.id}">${movie.name}</a></h2>
+                            </div>
+                        </div>
+                    </article>
+                 </div>`;
+        });
+        movieList.append(movieDomStr);
+        list.forEach(function (movie) {
+            $(`#movie-poster-${movie.id}`).css("background-image", `url("${movie.posterUrl}")`);
+        });
+    }
+
+    $('#search-btn').click(function () {
+        getMovieList($('#search-input').val());
     });
-
-    function getLoginForm() {
-        return {
-            username: $('#index-name').val(),
-            password: $('#index-password').val()
-        };
-    }
-
-    function validateLoginForm(data) {
-        var isValidate = true;
-        if (!data.username) {
-            isValidate = false;
-            $('#index-name').parent('.input-group').addClass('has-error');
-            $('#index-name-error').css("visibility", "visible");
-        }
-        if (!data.password) {
-            isValidate = false;
-            $('#index-password').parent('.input-group').addClass('has-error');
-            $('#index-password-error').css("visibility", "visible");
-        }
-        return isValidate;
-    }
 });

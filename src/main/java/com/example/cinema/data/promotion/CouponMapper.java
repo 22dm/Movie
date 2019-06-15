@@ -12,15 +12,13 @@ import java.util.List;
 @Mapper
 public interface CouponMapper {
 
-    int insertCoupon(Coupon coupon);
+    void insertCoupon(Coupon coupon);
 
-    List<Coupon> selectCouponByUser(int userId);
+    List<Coupon> selectCouponByUserId(int userId);
 
-    Coupon selectById(int id);
+    List<Coupon> selectAllCoupon();
+
+    Coupon selectCouponById(int id);
 
     void insertCouponUser(@Param("couponId") int couponId,@Param("userId")int userId);
-
-    void deleteCouponUser(@Param("couponId") int couponId,@Param("userId")int userId);
-
-    List<Coupon> selectCouponByUserAndAmount(@Param("userId") int userId,@Param("amount") double amount);
 }
