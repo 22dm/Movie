@@ -16,6 +16,12 @@ public class HallServiceImpl implements HallService, HallServiceForBl {
     @Autowired
     private HallMapper hallMapper;
 
+    private final static String GET_ALL_FAILED = "获取全部影厅信息失败";
+    private final static String GET_FAILED = "获取影厅信息失败";
+    private final static String ADD_FAILED = "添加影厅失败";
+    private final static String EDIT_FAILED = "修改影厅失败";
+    private final static String DELETE_FAILED = "删除影厅失败";
+
     @Override
     public ResponseVO getAll() {
         try {
@@ -27,7 +33,7 @@ public class HallServiceImpl implements HallService, HallServiceForBl {
             return ResponseVO.buildSuccess(hallWithSeatsStatusVOS);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("获取全部影厅信息失败");
+            return ResponseVO.buildFailure(GET_ALL_FAILED);
         }
     }
 
@@ -56,7 +62,7 @@ public class HallServiceImpl implements HallService, HallServiceForBl {
             return ResponseVO.buildSuccess(getSeatsVO(id));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("获取影厅信息失败");
+            return ResponseVO.buildFailure(GET_FAILED);
         }
     }
 
@@ -71,7 +77,7 @@ public class HallServiceImpl implements HallService, HallServiceForBl {
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("添加影厅失败");
+            return ResponseVO.buildFailure(ADD_FAILED);
         }
     }
 
@@ -83,17 +89,18 @@ public class HallServiceImpl implements HallService, HallServiceForBl {
             SeatsStatusVO seatsStatusVO = hallForm.getSeats();
             List<InvalidSeat> invalidSeats = seatStatusVOToPO(seatsStatusVO, id);
             if(!canEditHall(id))
-                return ResponseVO.buildFailure("修改影厅失败");
+                return ResponseVO.buildFailure(EDIT_FAILED);
             hallMapper.updateHall(hall);
             hallMapper.deleteInvalidSeats(id);
             hallMapper.addInvalidSeats(invalidSeats);
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("修改影厅失败");
+            return ResponseVO.buildFailure(EDIT_FAILED);
         }
     }
 
+    //座位状态VO转PO
     private List<InvalidSeat> seatStatusVOToPO(SeatsStatusVO seatsStatusVO, int id) {
         List<InvalidSeat> invalidSeats = new ArrayList<>();
         int[][] status = seatsStatusVO.getStatus();
@@ -117,22 +124,20 @@ public class HallServiceImpl implements HallService, HallServiceForBl {
     public ResponseVO delete(int id) {
         try {
             if(!canDeleteHall(id))
-                return ResponseVO.buildFailure("删除影厅失败");
+                return ResponseVO.buildFailure(DELETE_FAILED);
             hallMapper.deleteHall(id);
             hallMapper.deleteInvalidSeats(id);
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("删除影厅失败");
+            return ResponseVO.buildFailure(DELETE_FAILED);
         }
     }
 
-    //TODO: 是否可以修改影厅
     private boolean canEditHall(int id){
         return  true;
     }
 
-    //TODO: 是否可以删除影厅
     private boolean canDeleteHall(int id){
         return  true;
     }

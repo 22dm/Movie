@@ -131,6 +131,7 @@ public class ScheduleServiceImpl implements ScheduleService, ScheduleServiceForB
         return scheduleToVO(scheduleMapper.select(id));
     }
 
+    //schedulePO转VO
     private ScheduleVO scheduleToVO(Schedule schedule){
             ScheduleVO scheduleVO = new ScheduleVO(schedule);
             scheduleVO.setHall(hallServiceForBl.getVO(schedule.getHallId()));
@@ -140,6 +141,7 @@ public class ScheduleServiceImpl implements ScheduleService, ScheduleServiceForB
             return scheduleVO;
     }
 
+    //schedulePO列表转VO列表
     private List<ScheduleVO> scheduleListToVO(List<Schedule> schedules){
         List<ScheduleVO> scheduleVOS = new ArrayList<>();
         for(Schedule schedule : schedules){

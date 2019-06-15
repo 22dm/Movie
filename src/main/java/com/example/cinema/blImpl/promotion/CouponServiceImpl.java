@@ -14,14 +14,15 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by liying on 2019/4/17.
- */
 @Service
 public class CouponServiceImpl implements CouponService, CouponServiceForBl {
 
     @Autowired
     CouponMapper couponMapper;
+
+    private final static String FAILED = "失败";
+    private final static String UNKOWN_FAILED = "未知错误";
+    private final static String DATE_FAILED = "结束时间不得早于起始时间";
 
     @Override
     public ResponseVO getByUserId(int userId) {
@@ -30,7 +31,7 @@ public class CouponServiceImpl implements CouponService, CouponServiceForBl {
             return ResponseVO.buildSuccess(CouponListToVo(coupons));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
@@ -51,7 +52,7 @@ public class CouponServiceImpl implements CouponService, CouponServiceForBl {
             return ResponseVO.buildSuccess(CouponListToVo(coupons));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
@@ -62,10 +63,11 @@ public class CouponServiceImpl implements CouponService, CouponServiceForBl {
             return ResponseVO.buildSuccess(CouponListToVo(coupons));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
+    //优惠券PO列表转VO
     private List<CouponVO> CouponListToVo(List<Coupon> coupons){
         List<CouponVO> couponVOS = new ArrayList<>();
         for(Coupon coupon:coupons){
@@ -78,14 +80,14 @@ public class CouponServiceImpl implements CouponService, CouponServiceForBl {
     public ResponseVO add(CouponForm couponForm) {
         try {
             if(!couponForm.getStartTime().before(couponForm.getEndTime())){
-                return ResponseVO.buildFailure("结束时间不得早于起始时间");
+                return ResponseVO.buildFailure(DATE_FAILED);
             }
             Coupon coupon=new Coupon(couponForm);
             couponMapper.insertCoupon(coupon);
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("未知错误");
+            return ResponseVO.buildFailure(UNKOWN_FAILED);
         }
     }
 
@@ -99,7 +101,7 @@ public class CouponServiceImpl implements CouponService, CouponServiceForBl {
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 

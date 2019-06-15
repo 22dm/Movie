@@ -17,6 +17,8 @@ public class VIPServiceImpl implements VIPService, VIPServiceForBl {
     @Autowired
     VIPCardMapper vipCardMapper;
 
+    private final static String FAILED = "失败";
+
     @Override
     public ResponseVO buy(CardBuyForm cardBuyForm) {
         try {
@@ -25,7 +27,7 @@ public class VIPServiceImpl implements VIPService, VIPServiceForBl {
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
@@ -62,7 +64,7 @@ public class VIPServiceImpl implements VIPService, VIPServiceForBl {
             return ResponseVO.buildSuccess(vipCardVO);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
@@ -77,7 +79,7 @@ public class VIPServiceImpl implements VIPService, VIPServiceForBl {
             return ResponseVO.buildSuccess(cardPromotionVOS);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
@@ -88,7 +90,7 @@ public class VIPServiceImpl implements VIPService, VIPServiceForBl {
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
@@ -99,7 +101,7 @@ public class VIPServiceImpl implements VIPService, VIPServiceForBl {
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
@@ -115,7 +117,7 @@ public class VIPServiceImpl implements VIPService, VIPServiceForBl {
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 

@@ -28,6 +28,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     CouponServiceForBl couponService;
 
+    private final static String FAILED = "失败";
+    private final static String AMOUNT_FAILED = "余额不足";
+
     @Override
     @Transactional
     public ResponseVO add(OrderForm orderForm) {
@@ -50,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
             return ResponseVO.buildSuccess(orderId);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("创建订单失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
@@ -59,16 +62,19 @@ public class OrderServiceImpl implements OrderService {
     public ResponseVO pay(OrderPayForm orderPayForm) {
         try {
             OrderPay orderPay = new OrderPay(orderPayForm);
+            int userId = orderMapper.selectOrdersById(orderPayForm.getOrderId()).getUserId();
             if(orderPayForm.getPayForm().getMention() == 1){
+                if(vipService.getVO(userId).getBalance() < orderPayForm.getPayForm().getAmount()){
+                    return ResponseVO.buildFailure(AMOUNT_FAILED);
+                }
                 vipService.addBalance(orderPayForm.getPayForm().getCardNumber(), -orderPayForm.getPayForm().getAmount());
             }
-            int orderId = orderMapper.selectOrdersById(orderPayForm.getOrderId()).getId();
-            couponService.deleteUserCoupon(orderPayForm.getCouponId(), orderId);
+            couponService.deleteUserCoupon(orderPayForm.getCouponId(), userId);
             orderMapper.payOrder(orderPay);
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("支付失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
@@ -88,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
             return ResponseVO.buildSuccess(scheduleWithSeatVO);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
@@ -103,7 +109,7 @@ public class OrderServiceImpl implements OrderService {
             return ResponseVO.buildSuccess(orderVOS);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
@@ -114,7 +120,7 @@ public class OrderServiceImpl implements OrderService {
             return ResponseVO.buildSuccess(orderToVO(order));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
@@ -154,7 +160,7 @@ public class OrderServiceImpl implements OrderService {
             return ResponseVO.buildSuccess(refundPrice);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
@@ -170,7 +176,7 @@ public class OrderServiceImpl implements OrderService {
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
@@ -181,7 +187,7 @@ public class OrderServiceImpl implements OrderService {
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
@@ -196,7 +202,7 @@ public class OrderServiceImpl implements OrderService {
             return ResponseVO.buildSuccess(refundVOS);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 
@@ -207,7 +213,7 @@ public class OrderServiceImpl implements OrderService {
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVO.buildFailure("失败");
+            return ResponseVO.buildFailure(FAILED);
         }
     }
 }

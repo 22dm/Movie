@@ -199,6 +199,7 @@ public class MovieServiceImpl implements MovieService, MovieServiceForBl {
         return new MovieVO(movieMapper.selectById(id));
     }
 
+    //moviePO列表转VO列表
     private List<MovieVO> movieList2MovieVOList(List<Movie> movies){
         List<MovieVO> movieVOList = new ArrayList<>();
         for(Movie movie : movies){
