@@ -1,6 +1,10 @@
 package com.example.cinema.controller.management;
 
+import com.example.cinema.bl.promotion.VIPService;
+import com.example.cinema.bl.sales.OrderService;
 import com.example.cinema.blImpl.promotion.CouponServiceImpl;
+import com.example.cinema.blImpl.promotion.VIPServiceImpl;
+import com.example.cinema.blImpl.sales.OrderServiceImpl;
 import com.example.cinema.controller.user.AccountController;
 import com.example.cinema.vo.GiftForm;
 import com.example.cinema.vo.HallForm;
@@ -35,17 +39,39 @@ public class ControllerTest {
     @Autowired
     private CouponServiceImpl couponService;
 
+    @Autowired
+    private VIPServiceImpl vipService;
+
+    @Autowired
+    private OrderServiceImpl orderService;
+
     @Test
     public void getAllHall() {
         ResponseVO responseVO = hallController.getAll();
     }
 
     @Test
-    public void getHall() {
-        ResponseVO responseVO = hallController.get(1);
+    public void getAllCoupon() {
+        ResponseVO responseVO = couponService.getAll();
     }
 
     @Test
+    public void getHall() {
+        ResponseVO responseVO = couponService.getByUserId(1);
+    }
+
+    @Test
+    public void getVIPPromotion() {
+        ResponseVO responseVO = vipService.getPromotion();
+    }
+
+    @Test
+    public void getRefund() {
+        ResponseVO responseVO = orderService.getRefund();
+    }
+
+    @Test
+    @Rollback
     public void addHall() {
         HallForm hallForm = new HallForm();
         hallForm.setName("测试");
@@ -54,7 +80,8 @@ public class ControllerTest {
         ResponseVO responseVO = hallController.add(hallForm);
     }
 
-    @org.junit.Test
+    @Test
+    @Rollback
     public void gift() {
         GiftForm giftForm = new GiftForm();
         giftForm.setCouponId(1);
