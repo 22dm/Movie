@@ -1,3 +1,9 @@
+$(function () {
+    if(sessionStorage.getItem('username') !== 'root'){
+        $('#sidebar-manager').hide();
+    }
+});
+
 function getRequest(url, onSuccess, onError) {
     $.ajax({
         type: 'GET',
